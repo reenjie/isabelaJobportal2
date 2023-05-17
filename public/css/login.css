@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+* {
+    font-family: 'Poppins', sans-serif;
+  
+    margin: 0;
+    padding: 0;
+}
+
+.loginCard {
+    padding:40px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+ 
+
+}
+
+.loginTitle {
+    padding: 20px;
+    text-align: center;
+}
+.loginTitle h5 {
+    margin-top: 20px;
+    font-size: 20px;
+   
+}
+.loginTitle img {
+    width: 140px;
+}
+
+.logininputs {
+   
+    width: 340px;
+}
+.logininputs .icons {
+    color:#146C94;
+}
+
+.btnspace{
+    margin-top: 20px;
+}
+
+.btnspace  a {
+    text-decoration: none;
+    font-size: 14px;
+}
+.btnspace button {
+    padding: 8px;
+    width: 100%;
+    border-radius: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 14px;
+    border:none;
+    outline: none;
+    background-color: #2b859e ;
+    color: white;
+    transition: all 0.8s;
+}
+
+.btnspace button:hover{
+    background-color: #43b0ce ;
+}
+
+.signature {
+    float: right;
+    margin-top: 10px;
+    color: gray;
+}
+.signature h6 {
+    font-size: 11px;
+}
+.signature span{
+    font-size: 10px;
+    float: right;
+}
+
+.remember {
+    margin-top: 7px;
+    font-size: 15px;
+}
+.feedback {
+    font-size: 14px;
+    color: #EB455F;
+    font-weight: normal;
+}
+
+.slide_left:hover {
+    box-shadow: inset 0 0 0 50px #B4E4FF;
+    color:rgb(31, 28, 51)
+  }
+
+  .slide_left:focus{
+ color: rgb(165, 18, 18);
+ 
+  }

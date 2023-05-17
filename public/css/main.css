@@ -1,0 +1,330 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;&display=swap');
+/* font-family: 'Montserrat', sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Tiro+Devanagari+Hindi:ital@1&display=swap');
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    width: 100%;
+    
+  }
+  body {
+    background-color: rgb(248, 248, 248) !important;
+  }
+
+  .navigation {
+    background-color: #ECF2FF;
+    padding: 5px;
+    border-bottom: 5px solid #3E54AC ;
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    z-index: 3;
+
+  }
+  
+  .navtitle {
+    display: flex;
+    margin-left: 80px;
+   
+  }
+  .navtitle img {
+    width: 50px;
+    height: 50px;
+    margin-top: -4px;
+  }
+  .navtitle h5 {
+    margin: 15px 8px;
+    font-family: 'Tiro Devanagari Hindi', serif;
+
+    color:#3E54AC;
+    font-size: 19px;
+
+  }
+
+  .navlinks {
+    display: inline-flex;
+    position: absolute;
+    right:50px;
+    top: 10px;
+  }
+
+  .navlinks a {
+    flex:1;
+    text-decoration: none;
+    font-size: 14px;
+    color:#2E4F4F;
+    /* border: 1px solid black; */
+    display: block;
+    padding: 10px;
+    width: 110px;
+    border-radius: 20px;
+    transition:  ease-in-out .2s;
+    text-align: center;
+    /* margin: 5px; */
+  }
+
+  .navlinks a:hover {
+ /* background-color: #7e97fd ;
+    color: white; */
+    
+    font-weight: bold;
+    text-decoration: underline;
+ 
+    
+  }
+  .active {
+   
+  
+    pointer-events: none;
+    font-weight: bold;
+    background-color: #3E54AC;
+    color: white !important;
+    border-radius: unset !important;
+    border-bottom-right-radius: 50% !important;
+    border-bottom-left-radius: 50% !important;
+    width: auto !important;
+  }
+  .header {
+  
+    background-image: url("../logo//hero.jpg");
+    height: 400px;
+    background-position:center center;
+    background-size: cover;
+   
+    width: 100%;
+    padding-top: 60px;
+   
+  }
+
+  main {
+   
+    padding: 90px;
+  }
+
+  main h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+  }
+  #search {
+    font-family: 'Tiro Devanagari Hindi', serif;
+  }
+
+  #nopos {
+   font-weight: bold;
+   font-family: 'Montserrat', sans-serif;
+  }
+.customaddBtn:hover {
+  /* border-radius: 25px; */
+  background-color: #395597;
+  transform: translateY(-2px);
+  box-shadow: 5px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  /* border-bottom: 4px solid rgb(124, 120, 120); */
+}
+  .customaddBtn {
+    outline: none;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+   
+    background-color: #243763;
+    color: white;
+    font-weight: bold;
+    transition: all ease-out 0.2s;
+   margin: 5px 10px;
+    /* border-bottom: 4px solid transparent;
+     border-top: 4px solid transparent; */
+  }
+  
+.customaddBtn:hover {
+  /* border-radius: 25px; */
+  background-color: #395597;
+  transform: translateY(-2px);
+  box-shadow: 5px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  /* border-bottom: 4px solid rgb(124, 120, 120); */
+}
+
+.jobcard{
+  transition: ease-out .3s;
+  border-left: 5px solid transparent ;
+  padding:20px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #ECF2FF;
+  border : 1px solid rgb(216, 214, 214)
+  
+}
+
+.jobcard:hover {
+ border-left: 10px solid #395597 ;
+ background-color: #f9fafc;
+}
+#btnsearch{
+  pointer-events: none;
+}
+
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 2px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #9498a0;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(168, 171, 177);
+}
+.details {
+ 
+  padding: 10px;
+  height: 55vh;
+  overflow-y: scroll;
+  background-color: #d3f5f2;
+  border-radius: 10px;
+ 
+
+ 
+}
+.jobcard:hover .jobtitle{
+  color: #395597;
+}
+@keyframes Shrinkout {
+    0% {
+       border-radius: 25px;
+    }
+    25%{
+        border-radius: 10px;
+    }
+    50% {
+        border-radius: 0px;
+    }
+    75% {
+        border-radius: 15px;
+    }
+    100% {
+        border-radius: 50px;
+    }
+}
+
+.bars {
+display: none;
+}
+
+#restri {
+  padding: 5px;
+  border:1px solid gray
+}
+.disabled {
+  background-color: gray;
+  cursor: not-allowed;
+  pointer-events: none;
+  user-select: none;
+ 
+}
+@media screen and (min-width: 1200px) and (max-width: 1900px) {
+  main {
+    
+    width: 90%;
+    margin: 0 auto;
+    display: block;
+   
+  }
+  .header {
+    width: 80%;
+    margin: 0 auto;
+    display: block;
+  }
+  .navtitle img {
+    position: absolute;
+    left: 14.5%;
+    padding: 2px;
+
+  
+  }
+  .navtitle h5{
+    position: absolute;
+   left: 17.8%;
+  }
+
+  .navlinks {
+    position: absolute;
+    right:15%;
+    top: 10px;
+  }
+
+}
+@media screen and (max-width: 875px ) {
+  .navlinks {
+    display: block;
+    background-color: rgb(255, 248, 248);
+    width: 180px;
+    position: fixed;
+    right: -200px;
+    top: 0;
+    height: 100%;
+    transition: ease-in .4s;
+    box-shadow: 5px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  }
+  .bars {
+    display: block;
+    position: absolute;
+    right: 40px;
+    top: 10px;
+    padding: 8px 13px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    background-color: #3E54AC;
+    color: white;
+  }
+  .active{
+    pointer-events: none;
+    background-color: #3E54AC;
+    color: white !important;
+    border-radius: unset !important;
+    border-top-right-radius: 50% !important;
+    border-bottom-left-radius: 50% !important;
+    width: auto !important;
+  }
+  .navtitle {
+    transition: ease-in .4s;
+  }
+  .navtitle img {
+    position: absolute;
+    left: 10px;
+    padding: 2px;
+
+  
+  }
+  .navtitle h5{
+    position: absolute;
+    left: 57px;
+    font-size: 16px;
+  }
+  main {
+    width: 100% !important;
+    padding:15px;
+  }
+
+  #JobDetails {
+    margin-top: 65px;
+  }
+
+  #registercard{
+    margin-top:60px;
+  }
+}

@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.flex {
+    display: flex;
+    width: 100% ;
+}
+.sides{
+    margin: 20px;
+    width:fit-content;
+    animation: fadein 3s;
+
+}
+.sides .card {
+    padding: 50px;
+    background-color: #243763;
+    border-radius: 15px;
+    text-align: center;
+    animation: fadein 4s;
+}
+.sides .card h5 {
+    font-size: 15px;
+    color: rgb(255, 255, 255);
+    
+}
+.sides .card button {
+    padding: 10px 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    outline: none;
+    border: none;
+    background-color: #243763;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all ease-in-out .2s;
+    
+}
+.sides .card button:hover {
+    background-color: #395597;
+    transform: translateY(-2px);
+    box-shadow: 5px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.sides h2{
+    font-size: 40px;
+    margin-top: 40px;
+    color:#4D4D4D;
+    font-family: 'Montserrat', sans-serif;
+}
+.sides span{
+    font-size: 20px;
+    font-weight: normal;
+    color:#B46060
+}
+.sides .imgs{
+    width: 120px;
+}
+.message {
+    text-align: center;
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
