@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-fluid mt-4">
-   
+        @include('components.alerts')
         <ul class="nav nav-tabs" id="myTab" role="tablist" style="font-size: 14px">
             <li class="nav-item" role="presentation">
                 <a href="{{ route('admin.jobapplications') }}"
@@ -32,6 +32,8 @@
             @default
                 @include('admin.components.application')
         @endswitch
+
+      
     </div>
    
 @endsection

@@ -12,6 +12,7 @@ use App\Models\Employee;
 use App\Models\Roles;
 use App\Models\AssignedRoles;
 use App\Models\User;
+use Illuminate\Support\Facades\Response;
 class JobApplicationController extends Controller
 {
     public function __construct()
@@ -19,23 +20,188 @@ class JobApplicationController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $AppliedJobpost = Jobpost::whereExists(function($query){
+     
+
+        $AppliedJobpost = DB::select('SELECT * FROM `job_posts` where id in (select job_post_id from applications ) order by title asc  ');
+         $qrybuilder = Applications::whereExists(function($query){
             $query->select(DB::raw(1))
-            ->from('applications')
-            ->whereRaw('applications.job_post_id =  job_posts.id'); 
-        })->orderBy('title', 'asc')
-        ->get();
+                  ->from('applicants')
+                  ->whereRaw('applicants.id = applications.applicant_id');
+        });
+        // $applications = [];
+        //  if(isset($request->status) && isset($request->jobpost)){
+        //     /* filter and jobpost */
+          
+          
+        //     $applications=  $qrybuilder->where('status',$request->status)
+        //     ->where('job_post_id',$request->jobpost)
+        //     ->orderBy('date_created', 'asc')
+        //     ->get();
+          
 
-      
+        // }else if(isset($request->status)){
+        //     /* filter only */
+          
+        //     $applications =  $qrybuilder
+        //     ->where('status',$request->status)
+        //     ->orderBy('date_created', 'asc')
+         
+        //     ->paginate(10);
+           
+        // }else if(isset($request->jobpost)){
+        //     /* jobpost only */
+          
+        //     $qrybuilder
+        //     ->where('job_post_id',$request->jobpost)
+        //     ->orderBy('date_created', 'asc')
+        //     ->get();
 
-       
-        return view('admin.jobapplication',compact('AppliedJobpost'));
-    }
+        // }else {
 
-    public function Fetch(Request $request)
-    {
+        //     $query = DB::table('applications')
+        //     ->whereIn('applicant_id', function ($query) {
+        //         $query->select('id')
+        //             ->from('applicants');
+        //     })
+        //     ->where('status', 1)
+        //     ->where('date_created', '>=', DB::raw('CURDATE() - INTERVAL 31 DAY'))
+        //     ->where('date_created', '<=', DB::raw('CURDATE()'))
+        //     ->orderBy('date_created', 'asc');
+        
+        // $applications = $query->paginate(10);
+
+        // }
+
+
+
+        /* 
+x======================================================
+        
+        
+        
+        */
+
+        $search = $request->search;
+        if(isset($request->search) && isset($request->jobpost) && isset($request->status)){
+            /*  all three */
+            $applications =  $qrybuilder
+            ->whereIn('applicant_id',function($query) use ($search){
+                $query->select('id')
+                      ->from('applicants')
+                      ->where('last_name', 'like', '%' . $search . '%')
+                      ->orWhere('first_name', 'like', '%' . $search . '%')
+                      ->orWhere('middle_name', 'like', '%' .$search. '%');
+
+            })
+            ->where('status',$request->status)
+            ->where('job_post_id',$request->jobpost)
+            ->orderBy('date_created', 'asc')
+            ->paginate(10);
+
+
+        }else if(isset($request->status) && isset($request->search)){
+            /* filter and search */
+             
+            $applications =  $qrybuilder
+            ->whereIn('applicant_id',function($query) use ($search){
+                $query->select('id')
+                      ->from('applicants')
+                      ->where('last_name', 'like', '%' . $search . '%')
+                      ->orWhere('first_name', 'like', '%' . $search . '%')
+                      ->orWhere('middle_name', 'like', '%' .$search. '%');
+
+            })
+            ->where('status',$request->status)
+            ->orderBy('date_created', 'asc')
+            ->paginate(10);
+        }else if(isset($request->jobpost) && isset($request->search)){
+            /* jobpost and search */
+            
+          
+            $applications =  $qrybuilder
+            ->whereIn('applicant_id',function($query) use ($search){
+                $query->select('id')
+                      ->from('applicants')
+                      ->where('last_name', 'like', '%' . $search . '%')
+                      ->orWhere('first_name', 'like', '%' . $search . '%')
+                      ->orWhere('middle_name', 'like', '%' .$search. '%');
+
+            })
+            ->where('job_post_id',$request->jobpost)
+            ->orderBy('date_created', 'asc')
+            ->paginate(10);
+
+        }else
+
+        if(isset($request->status) && isset($request->jobpost)){
+            /* filter and jobpost */
+          
+            $applications =  $qrybuilder
+            ->where('status',$request->status)
+            ->where('job_post_id',$request->jobpost)
+            ->orderBy('date_created', 'asc')
+            ->paginate(10);
+          
+
+        }else if(isset($request->status)){
+            /* filter only */
+          
+            $applications =  $qrybuilder
+            ->where('status',$request->status)
+            ->orderBy('date_created', 'asc')
+         
+            ->paginate(10);
+           
+        }else if(isset($request->jobpost)){
+            /* jobpost only */
+          
+            $applications =  $qrybuilder
+            ->where('job_post_id',$request->jobpost)
+            ->orderBy('date_created', 'asc')
+            ->paginate(10);
+
+        }else if (isset($request->search)){
+            /* searchonly */
+          
+            $applications =  $qrybuilder
+            ->whereIn('applicant_id',function($query) use ($search){
+                $query->select('id')
+                      ->from('applicants')
+                      ->where('last_name', 'like', '%' . $search . '%')
+                      ->orWhere('first_name', 'like', '%' . $search . '%')
+                      ->orWhere('middle_name', 'like', '%' .$search. '%');
+
+            })
+           
+            ->orderBy('date_created', 'asc')
+            ->paginate(10);
+        }
+        
+        else {
+            $query = DB::table('applications')
+            ->whereIn('applicant_id', function ($query) {
+                $query->select('id')
+                    ->from('applicants');
+            })
+            ->where('status', 1)
+            ->where('date_created', '>=', DB::raw('CURDATE() - INTERVAL 31 DAY'))
+            ->where('date_created', '<=', DB::raw('CURDATE()'))
+            ->orderBy('date_created', 'asc');
+        
+        $applications = $query->paginate(10);
+        }
+
+
+
+
+        /* ===================================================== */
+
+
+
+        $application_docs = Application_docs::all();
+        $jobpost = Jobpost::all();
 
         $hrmpsb = DB::table('_employee')
         ->whereIn('ID', function ($subquery) {
@@ -48,152 +214,17 @@ class JobApplicationController extends Controller
                 });
         })
         ->get();
-        $search  = $request->search ;
         $applicants = Applicants::whereExists(function ($query) {
-            $query->select(DB::raw(1))
-                  ->from('applications')
-                  ->whereRaw('applications.applicant_id = applicants.id');
-        })
-        ->orderBy('date_created', 'desc')
-        ->get();
-        if(isset($request->search) && isset($request->jobpost) && isset($request->filter)){
-            /*  all three */
-            $applications = Applications::whereExists(function($query){
-                $query->select(DB::raw(1))
-                      ->from('applicants')
-                      ->whereRaw('applicants.id = applications.applicant_id');
-            })
-            ->whereIn('applicant_id',function($query) use ($search){
-                $query->select('id')
-                      ->from('applicants')
-                      ->where('last_name', 'like', '%' . $search . '%')
-                      ->orWhere('first_name', 'like', '%' . $search . '%')
-                      ->orWhere('middle_name', 'like', '%' .$search. '%');
+                    $query->select(DB::raw(1))
+                        ->from('applications')
+                        ->whereRaw('applications.applicant_id = applicants.id');
+                })
+                ->orderBy('date_created', 'desc')
+                ->get();
 
-            })
-            ->where('status',$request->filter)
-            ->where('job_post_id',$request->jobpost)
-            ->orderBy('date_created', 'asc')
-            ->get();
-
-
-        }else if(isset($request->filter) && isset($request->search)){
-            /* filter and search */
-             
-            $applications = Applications::whereExists(function($query){
-                $query->select(DB::raw(1))
-                      ->from('applicants')
-                      ->whereRaw('applicants.id = applications.applicant_id');
-            })
-            ->whereIn('applicant_id',function($query) use ($search){
-                $query->select('id')
-                      ->from('applicants')
-                      ->where('last_name', 'like', '%' . $search . '%')
-                      ->orWhere('first_name', 'like', '%' . $search . '%')
-                      ->orWhere('middle_name', 'like', '%' .$search. '%');
-
-            })
-            ->where('status',$request->filter)
-            ->orderBy('date_created', 'asc')
-            ->get();
-        }else if(isset($request->jobpost) && isset($request->search)){
-            /* jobpost and search */
-            
-          
-            $applications = Applications::whereExists(function($query){
-                $query->select(DB::raw(1))
-                      ->from('applicants')
-                      ->whereRaw('applicants.id = applications.applicant_id');
-            })
-            ->whereIn('applicant_id',function($query) use ($search){
-                $query->select('id')
-                      ->from('applicants')
-                      ->where('last_name', 'like', '%' . $search . '%')
-                      ->orWhere('first_name', 'like', '%' . $search . '%')
-                      ->orWhere('middle_name', 'like', '%' .$search. '%');
-
-            })
-            ->where('job_post_id',$request->jobpost)
-            ->orderBy('date_created', 'asc')
-            ->get();
-
-        }else
-
-        if(isset($request->filter) && isset($request->jobpost)){
-            /* filter and jobpost */
-          
-            $applications = Applications::whereExists(function($query){
-                $query->select(DB::raw(1))
-                      ->from('applicants')
-                      ->whereRaw('applicants.id = applications.applicant_id');
-            })
-            ->where('status',$request->filter)
-            ->where('job_post_id',$request->jobpost)
-            ->orderBy('date_created', 'asc')
-            ->get();
-          
-
-        }else if(isset($request->filter)){
-            /* filter only */
-          
-            $applications = Applications::whereExists(function($query){
-                $query->select(DB::raw(1))
-                      ->from('applicants')
-                      ->whereRaw('applicants.id = applications.applicant_id');
-            })
-            ->where('status',$request->filter)
-            ->orderBy('date_created', 'asc')
-            ->get();
-           
-        }else if(isset($request->jobpost)){
-            /* jobpost only */
-          
-            $applications = Applications::whereExists(function($query){
-                $query->select(DB::raw(1))
-                      ->from('applicants')
-                      ->whereRaw('applicants.id = applications.applicant_id');
-            })
-            ->where('job_post_id',$request->jobpost)
-            ->orderBy('date_created', 'asc')
-            ->get();
-
-        }else if (isset($request->search)){
-            /* searchonly */
-          
-            $applications = Applications::whereExists(function($query){
-                $query->select(DB::raw(1))
-                      ->from('applicants')
-                      ->whereRaw('applicants.id = applications.applicant_id');
-            })
-            ->whereIn('applicant_id',function($query) use ($search){
-                $query->select('id')
-                      ->from('applicants')
-                      ->where('last_name', 'like', '%' . $search . '%')
-                      ->orWhere('first_name', 'like', '%' . $search . '%')
-                      ->orWhere('middle_name', 'like', '%' .$search. '%');
-
-            })
-           
-            ->orderBy('date_created', 'asc')
-            ->get();
-        }
-        
-        else {
-            $applications = Applications::whereExists(function($query){
-                $query->select(DB::raw(1))
-                      ->from('applicants')
-                      ->whereRaw('applicants.id = applications.applicant_id');
-            })->orderBy('date_created', 'asc')
-            ->get();
-        }
-
-        $application_docs = Application_docs::all();
-        $jobpost = Jobpost::all();
-
-        return view(
-            'admin.tables.applicantsTable',
-            compact('applicants', 'applications', 'application_docs', 'jobpost','hrmpsb')
-        );
+      
+      
+        return view('admin.jobapplication',compact('AppliedJobpost' , 'applications','application_docs','jobpost','hrmpsb','applicants'))->with('links',$applications);
     }
 
 
@@ -205,7 +236,7 @@ class JobApplicationController extends Controller
             Applications::find($id)->update([
                 'status'=>0
             ]);
-            return "success";
+            return redirect()->back()->with('success','Interview Set successfully!');
          
       }
       
@@ -218,9 +249,21 @@ class JobApplicationController extends Controller
         $venue           = $request->venue;
         $selectedInterviewer = $request->selectedInterviewer;
         $notes           = $request->null;
+        $appID           = $request->appID;
 
-        echo implode(',',$selectedInterviewer);
+    
+        $interview_date = date('Y-m-d H:i:s',strtotime($dateofInterview.' '.$timeofInterview));
+      
+        Applications::find($appID)->update([
+            'status'    =>2,
+            'interview_date'=>$interview_date,
+            'venue' =>$venue,
+            'hmpsb_ids' => implode(',',$selectedInterviewer),
+            'date_updated'=>date('Y-m-d h:i:s')
+        ]);
+
+        return redirect()->back()->with('success','Interview Set successfully!');
+
     }
-
 
 }

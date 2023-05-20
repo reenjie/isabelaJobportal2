@@ -38,8 +38,10 @@
                         @case('setinterview')
                         @include('admin.components.setInterview_modal')
                         @break;
-                   
-                   
+
+                        @case('viewRequirements')
+                     @include('admin.components.requirements_modal')
+                        @break;
                         @endswitch
 
                 </div>

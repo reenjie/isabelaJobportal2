@@ -1,5 +1,5 @@
+<div class="">
 
-<div class="table-responsive">
     <table style="font-size:14px" class="table  table-striped" id="users">
         <thead>
             <tr class="" style="text-transform:uppercase;font-weight:normal;font-size:13px">
@@ -20,6 +20,7 @@
             @if (count($applications) >= 1)
                 @foreach ($applications as $item)
                     @php
+                        $jobtitle = '';
                         foreach ($applicants as $key => $user) {
                             if ($user->id == $item->applicant_id) {
                                 $fullName = $user->last_name . ' , ' . $user->first_name . ' ' . $user->middle_name;
@@ -30,53 +31,108 @@
                                 $userID = $user->id;
                             }
                         }
-                    $dateapplied = '';
+                        $dateapplied = '';
                     @endphp
-                
+
                     <tr>
 
                         <td>
-                            @if($item->status >=1)
-                            <div class="dropdown">
-                                <button class="btn btn-light text-danger btn-sm " type="button"
-                                    id="dropdownMenuButton1" style="border-radius: 50px;border:1px solid gray"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-vertical"></i>
-                                </button>
-                                <ul class="dropdown-menu shadow " style="font-size: 13px"
-                                    aria-labelledby="dropdownMenuButton1">
-                                    <li>
-                                        <button class="dropdown-item">Set as Hired </button>
-                                    </li>
-
-                                    <li>
-                                        <button class="dropdown-item">Resend Email Invitation</i></button>
-                                    </li>
-                                    @if ($item->status != 2)
+                            @if ($item->status >= 1)
+                                <div class="dropdown" >
+                                    <button class="btn btn-light text-danger btn-sm " type="button"
+                                        id="dropdownMenuButton1" style="border-radius: 50px;border:1px solid gray"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu shadow "
+                                        style="font-size: 13px;position: absolute;z-index: 9999;top:100%;left:0"
+                                        aria-labelledby="dropdownMenuButton1">
                                         <li>
-                                            <button class="dropdown-item">Resend Acknowledgement Email</button>
+                                            <button class="dropdown-item">Set as Hired </button>
                                         </li>
 
                                         <li>
-                                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#setInterview{{ $item->id }}">Set Interview</button>
-                                           
+                                            <button class="dropdown-item">Resend Email Invitation</i></button>
                                         </li>
-                                    @endif
-                                    <li>
-                                        <hr>
-                                        <button data-id="{{$item->id}}"  class="dropdown-item btnnotqualified">Not Qualified</button>
-                                    </li>
-                                </ul>
-                                @include('components.modal', [
-                                    'id'             => 'setInterview' . $item->id,
-                                    'modalsize'      => 'modal-lg',
-                                    'modaltitle'     => 'Set Interview for : '.$fullName,
-                                    'type'           => 'setinterview',
-                                    'data'           => $item,
-                                    'itemID'         => $item->id,
-                                    'jobtitle'       => $jobtitle
-                                ])
-                            </div>
+                                        @if ($item->status != 2)
+                                            <li>
+                                                <button class="dropdown-item">Resend Acknowledgement Email</button>
+                                            </li>
+
+                                            <li>
+                                                <button class="dropdown-item" data-bs-toggle="modal"
+                                                    data-bs-target="#setInterview{{ $item->id }}">Set
+                                                    Interview</button>
+
+                                            </li>
+                                        @endif
+                                        <li>
+                                            <hr>
+                                            <button data-id="{{ $item->id }}"
+                                                class="dropdown-item " id="btnnotqualified{{ $item->id }}">Not Qualified</button>
+
+                                                <script>
+                                  $('#btnnotqualified{{ $item->id }}').click(function() {
+                                   
+                                    var id = $(this).data('id');
+                        
+                                    var jobpost = $('#filterJobpost').val();
+                                    var status = $('#filterstatus').val();
+                                    var search = $('#search').val();
+                        
+                                    swal({
+                                            title: "Confirm Action",
+                                            text: "Are you sure you want to mark this applicant `Not Qualified` ? ",
+                                            icon: "warning",
+                                            buttons: ['No', 'Yes'],
+                                            dangerMode: true,
+                                        })
+                                        .then((willMark) => {
+                                            if (willMark) {
+                                                Action.MarkApplicant_Status(id, 'notqualified', null, function(res) {
+                                                    if (res == 'success') {
+                                                        Toastify({
+                                                            text: "Applicant Marked as NOT QUALIFIED",
+                                                            duration: 10000,
+                                                            newWindow: true,
+                                                            close: true,
+                                                            gravity: "top",
+                                                            position: "right",
+                                                            stopOnFocus: true,
+                                                            style: {
+                                                                background: "#68B984",
+                                                                color: "white",
+                                                                borderRadius: "2px",
+                                                                paddingX: "40px",
+                                                                marginTop: "45px",
+                                                                fontWeight: "bold",
+                                                                fontSize: "13px"
+                                                            },
+                                                            onClick: function() {}
+                                                        }).showToast();
+                                                      setTimeout(() => {
+                                                          window.location.reload();
+                                                      }, 1000);
+                                                        return;
+                                                    }
+                                                })
+                                            }
+                                        });
+                                })</script> 
+                                        </li>
+                                    </ul>
+                                    @include('components.modal', [
+                                        'id' => 'setInterview' . $item->id,
+                                        'modalsize' => 'modal-lg',
+                                        'modaltitle' => 'Set Interview for : ' . $fullName,
+                                        'type' => 'setinterview',
+                                        'data' => $item,
+                                        'itemID' => $item->id,
+                                        'jobtitle' => $jobtitle,
+                                    ])
+
+                                
+                                </div>
                             @endif
                         </td>
                         <td>
@@ -84,6 +140,7 @@
                         </td>
                         <td>
                             @php
+                                
                                 $dob = new DateTime($dobs);
                                 $today = new DateTime(date('Y-m-d'));
                                 $diff = $today->diff($dob);
@@ -107,19 +164,19 @@
                                 @endphp
                                 @foreach ($jobpost as $job)
                                     @if ($job->id == $item->job_post_id)
-                                    @php
-                                        $jobtitle = $job->title;
-                                    @endphp
+                                        @php
+                                            $jobtitle = $job->title;
+                                        @endphp
                                         <span style="text-transform: uppercase;font-weight:bold"
                                             class="text-secondary">{{ $job->title }}</span>
                                     @endif
                                 @endforeach
                             @endif
-                          
+
 
                         </td>
                         <td>
-                            {{ date('h:ia M j, Y', strtotime($dateapplied)) }}
+                            {{ date('M j, Y h:ia', strtotime($dateapplied)) }}
                         </td>
                         <td>
                             @switch($status)
@@ -141,66 +198,64 @@
                             @endswitch
                         </td>
                         <td>
+                            @php
+                                $reqs = DB::select('select f.file, f.date_created, d.name , d.type, a.id as userID from application_docs f INNER JOIN doc_types d on f.doc_type_id = d.id INNER JOIN applicants a on f.applicant_id = a.id where a.id = ' . $userID . ' ');
+                            @endphp
                             <button data-bs-toggle="tooltip" data-bs-placement="top" title="Submitted Documents"
-                                class="position-relative btn btn-light btn-sm text-info"
-                                style="border-radius: 20px;border:1px solid gray"><i class="fas fa-folder"></i>
+                                class="position-relative openreqs btn btn-light btn-sm text-info"
+                                style="border-radius: 20px;border:1px solid gray"
+                                id="openreqs{{ $item->id }}"
+                                @if(count($reqs) == 0)
+                            disabled
+                                @endif
+                            data-bs-toggle="modal"
+                              data-bs-target="#viewReqs{{ $item->id }}"
+                                ><i class="fas fa-folder   @if(count($reqs) == 0)text-secondary @endif"></i>
+                                @if(count($reqs) >= 1)
                                 <span
-                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    3
-                                </span>
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                               {{count($reqs)}}
+                            </span>
+                                    @endif
+                                
                             </button>
+
+                          
                         </td>
                     </tr>
-
-                 
-                  
+                    @include('components.modal', [
+                        'id' => 'viewReqs' . $item->id,
+                        'modalsize' => '',
+                        'modaltitle' => 'Uploaded Requirements of ' . $fullName,
+                        'type' => 'viewRequirements',
+                        'data' => $item,
+                        'userID' => $userID,
+                        'jobtitle' => $jobtitle,
+                    ])
+                    <script>
+                        $('#openreqs'+{{ $item->id }}).click(function(){
+                          $('#viewReqs'+{{$item->id}}).modal('show');
+                        })
+                    </script>
                 @endforeach
-            @else
-                <tr>
-                    <td style="text-align:center" colspan="9">
-
-                        <lord-icon src="https://cdn.lordicon.com/zniqnylq.json" trigger="loop" delay="5000"
-                            style="width:100px;height:100px;">
-
-
-                        </lord-icon>
-                        <h6 style="font-weight: bold"> No Employee Data Found</h6>
-                    </td>
-                </tr>
-
+             
             @endif
         </tbody>
     </table>
+    @isset($links)
+   @if(count($links)>=1)
+    {{ $links->render('admin.components.pagination') }}
+    @endif
+    @endisset
+    @if(count($applications)==0)
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <lord-icon src="https://cdn.lordicon.com/zniqnylq.json" trigger="loop" delay="5000"
+            style="width: 100px; height: 100px;">
+        </lord-icon>
+        <h6 style="font-weight: bold;">No Employee Data Found</h6>
+    </div>
+    @endif
 </div>
 
 
-<script>
-    $(document).ready(function() {
-        $('.btnnotqualified').click(function() {
-            var id = $(this).data('id');
 
-            var jobpost = $('#filterJobpost').val();
-            var status = $('#filterstatus').val();
-            var search = $('#search').val();
-         
-            swal({
-                    title: "Confirm Action",
-                    text: "Are you sure you want to mark this applicant `Not Qualified` ? ",
-                    icon: "warning",
-                    buttons: ['No','Yes'],
-                    dangerMode: true,
-                })
-                .then((willMark) => {
-                    if (willMark) {
-                       Action.MarkApplicant_Status(id,'notqualified',null,function(res){
-                       if(res == 'success'){
-                        Fetch.getAllapplications(search,status,jobpost);
-                        return;
-                       }
-                       })
-                    }
-                });
-        })
-
-    });
-</script>
