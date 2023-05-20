@@ -236,7 +236,7 @@ x======================================================
             Applications::find($id)->update([
                 'status'=>0
             ]);
-            return redirect()->back()->with('success','Interview Set successfully!');
+            return 'success';
          
       }
       

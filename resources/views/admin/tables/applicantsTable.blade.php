@@ -38,7 +38,7 @@
 
                         <td>
                             @if ($item->status >= 1)
-                                <div class="dropdown" >
+                                <div class="dropdown">
                                     <button class="btn btn-light text-danger btn-sm " type="button"
                                         id="dropdownMenuButton1" style="border-radius: 50px;border:1px solid gray"
                                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -68,57 +68,59 @@
                                         @endif
                                         <li>
                                             <hr>
-                                            <button data-id="{{ $item->id }}"
-                                                class="dropdown-item " id="btnnotqualified{{ $item->id }}">Not Qualified</button>
+                                            <button data-id="{{ $item->id }}" class="dropdown-item "
+                                                id="btnnotqualified{{ $item->id }}">Not Qualified</button>
 
-                                                <script>
-                                  $('#btnnotqualified{{ $item->id }}').click(function() {
-                                   
-                                    var id = $(this).data('id');
-                        
-                                    var jobpost = $('#filterJobpost').val();
-                                    var status = $('#filterstatus').val();
-                                    var search = $('#search').val();
-                        
-                                    swal({
-                                            title: "Confirm Action",
-                                            text: "Are you sure you want to mark this applicant `Not Qualified` ? ",
-                                            icon: "warning",
-                                            buttons: ['No', 'Yes'],
-                                            dangerMode: true,
-                                        })
-                                        .then((willMark) => {
-                                            if (willMark) {
-                                                Action.MarkApplicant_Status(id, 'notqualified', null, function(res) {
-                                                    if (res == 'success') {
-                                                        Toastify({
-                                                            text: "Applicant Marked as NOT QUALIFIED",
-                                                            duration: 10000,
-                                                            newWindow: true,
-                                                            close: true,
-                                                            gravity: "top",
-                                                            position: "right",
-                                                            stopOnFocus: true,
-                                                            style: {
-                                                                background: "#68B984",
-                                                                color: "white",
-                                                                borderRadius: "2px",
-                                                                paddingX: "40px",
-                                                                marginTop: "45px",
-                                                                fontWeight: "bold",
-                                                                fontSize: "13px"
-                                                            },
-                                                            onClick: function() {}
-                                                        }).showToast();
-                                                      setTimeout(() => {
-                                                          window.location.reload();
-                                                      }, 1000);
-                                                        return;
-                                                    }
+                                            <script>
+                                                $('#btnnotqualified{{ $item->id }}').click(function() {
+
+                                                    var id = $(this).data('id');
+
+                                                    var jobpost = $('#filterJobpost').val();
+                                                    var status = $('#filterstatus').val();
+                                                    var search = $('#search').val();
+
+                                                    swal({
+                                                            title: "Confirm Action",
+                                                            text: "Are you sure you want to mark this applicant `Not Qualified` ? ",
+                                                            icon: "warning",
+                                                            buttons: ['No', 'Yes'],
+                                                            dangerMode: true,
+                                                        })
+                                                        .then((willMark) => {
+                                                            if (willMark) {
+                                                                Action.MarkApplicant_Status(id, 'notqualified', null, function(res) {
+                                                                    if (res == 'success') {
+                                                                        Toastify({
+                                                                            text: "Applicant Marked as NOT QUALIFIED",
+                                                                            duration: 3000,
+                                                                            newWindow: true,
+                                                                            close: true,
+                                                                            gravity: "top",
+                                                                            position: "right",
+                                                                            stopOnFocus: true,
+                                                                            style: {
+                                                                                background: "#68B984",
+                                                                                color: "white",
+                                                                                borderRadius: "2px",
+                                                                                paddingX: "40px",
+                                                                                marginTop: "45px",
+                                                                                fontWeight: "bold",
+                                                                                fontSize: "13px"
+                                                                            },
+                                                                            onClick: function() {},
+                                                                            callback: function() {
+                                                                                window.location.reload();
+                                                                            }
+                                                                        }).showToast();
+
+                                                                        return;
+                                                                    }
+                                                                })
+                                                            }
+                                                        });
                                                 })
-                                            }
-                                        });
-                                })</script> 
+                                            </script>
                                         </li>
                                     </ul>
                                     @include('components.modal', [
@@ -131,7 +133,7 @@
                                         'jobtitle' => $jobtitle,
                                     ])
 
-                                
+
                                 </div>
                             @endif
                         </td>
@@ -203,24 +205,20 @@
                             @endphp
                             <button data-bs-toggle="tooltip" data-bs-placement="top" title="Submitted Documents"
                                 class="position-relative openreqs btn btn-light btn-sm text-info"
-                                style="border-radius: 20px;border:1px solid gray"
-                                id="openreqs{{ $item->id }}"
-                                @if(count($reqs) == 0)
-                            disabled
+                                style="border-radius: 20px;border:1px solid gray" id="openreqs{{ $item->id }}"
+                                @if (count($reqs) == 0) disabled @endif data-bs-toggle="modal"
+                                data-bs-target="#viewReqs{{ $item->id }}"><i
+                                    class="fas fa-folder   @if (count($reqs) == 0) text-secondary @endif"></i>
+                                @if (count($reqs) >= 1)
+                                    <span
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{ count($reqs) }}
+                                    </span>
                                 @endif
-                            data-bs-toggle="modal"
-                              data-bs-target="#viewReqs{{ $item->id }}"
-                                ><i class="fas fa-folder   @if(count($reqs) == 0)text-secondary @endif"></i>
-                                @if(count($reqs) >= 1)
-                                <span
-                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                               {{count($reqs)}}
-                            </span>
-                                    @endif
-                                
+
                             </button>
 
-                          
+
                         </td>
                     </tr>
                     @include('components.modal', [
@@ -233,29 +231,26 @@
                         'jobtitle' => $jobtitle,
                     ])
                     <script>
-                        $('#openreqs'+{{ $item->id }}).click(function(){
-                          $('#viewReqs'+{{$item->id}}).modal('show');
+                        $('#openreqs' + {{ $item->id }}).click(function() {
+                            $('#viewReqs' + {{ $item->id }}).modal('show');
                         })
                     </script>
                 @endforeach
-             
+
             @endif
         </tbody>
     </table>
     @isset($links)
-   @if(count($links)>=1)
-    {{ $links->render('admin.components.pagination') }}
-    @endif
+        @if (count($links) >= 1)
+            {{ $links->render('admin.components.pagination') }}
+        @endif
     @endisset
-    @if(count($applications)==0)
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <lord-icon src="https://cdn.lordicon.com/zniqnylq.json" trigger="loop" delay="5000"
-            style="width: 100px; height: 100px;">
-        </lord-icon>
-        <h6 style="font-weight: bold;">No Employee Data Found</h6>
-    </div>
+    @if (count($applications) == 0)
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <lord-icon src="https://cdn.lordicon.com/zniqnylq.json" trigger="loop" delay="5000"
+                style="width: 100px; height: 100px;">
+            </lord-icon>
+            <h6 style="font-weight: bold;">No Employee Data Found</h6>
+        </div>
     @endif
 </div>
-
-
-
