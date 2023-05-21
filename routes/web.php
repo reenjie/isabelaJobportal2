@@ -94,6 +94,19 @@ Route::get('/home', [
     'index',
 ])->name('home');
 
+Route::controller(App\Http\Controllers\MailController::class)->group(
+    function () {
+        Route::get('remind', 'Resend_Interviewnotice')->name('mail.sendInterview');
+        Route::post('resend/invitation','Resend_Interviewnotice');
+        Route::post('resend/acknowledgement','Resend_Acknowledgement');
+    }
+);
+
+Route::get('/testemail',[App\Http\Controllers\MailController::class, 'testemail']);
+Route::get('/viewmail',function(){
+    return view('mail');
+});
 Route::any('/{page?}', function () {
     return view('404.404');
 })->where('page', '.*');
+

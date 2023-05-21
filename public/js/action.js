@@ -44,4 +44,39 @@ class Action {
         });
 
     }
+
+    static Resend_Invitation(data,callback){
+
+        
+        $.ajax({
+            url: "resend/invitation",
+            type: "POST",
+            data: { data:data,resend:1,_token: Action.csrfToken },
+            success: function (response) {
+                if (typeof callback === "function") {
+                    callback(response);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {},
+        });
+
+    }
+
+    
+    static Resend_Acknowledgement(data,callback){
+
+        
+        $.ajax({
+            url: "resend/acknowledgement",
+            type: "POST",
+            data: { data:data,resend:1,_token: Action.csrfToken },
+            success: function (response) {
+                if (typeof callback === "function") {
+                    callback(response);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {},
+        });
+
+    }
 }

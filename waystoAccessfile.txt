@@ -1,1 +1,8 @@
 http://51.79.158.240/server/storage/files/Jq9cKmADzAC4K7BQmNXjyaaaKDuHDNuIqQm7rlZI.jpg
+
+
+
+credentials 
+
+GOOGLE_API_CLIENT_ID=633894388009-dq823nvhl97u0okjg7nascsdj451atdo.apps.googleusercontent.com
+GOOGLE_API_CLIENT_SECRET=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

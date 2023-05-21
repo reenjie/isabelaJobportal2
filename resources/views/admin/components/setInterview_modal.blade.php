@@ -4,8 +4,11 @@
         <h6 class="text-primary" style="text-transform: uppercase;font-weight:bold">{{ $jobtitle }}</h6>
 
         <hr>
-
+        <input type="hidden" name="applicantfullname" value="{{$applicantfullname}}">
+        <input type="hidden" name="applicantemail" value="{{$applicantemail}}">
+        <input type="hidden" name="mobile_no" value="{{$mobile_no}}">
         <input type="hidden" name="appID" value="{{ $itemID }}">
+        <input type="hidden" name="jobtitle" value="{{$jobtitle}}">
         <div class="row">
             <div class="col-md-7 mb-2">
                 <h6>Date</h6>
