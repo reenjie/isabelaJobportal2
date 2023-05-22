@@ -44,6 +44,7 @@
                             @if ($job->id == $item->job_post_id)
                                 @php
                                     $jobtitle = $job->title;
+                                    $jobID = $job->id;
                                 @endphp
                             @endif
                         @endforeach
@@ -54,39 +55,50 @@
                         <td>
                             @if ($item->status >= 1)
                                 <div class="dropdown">
+                                    @if($item->status == 100)
+                                    @else
                                     <button class="btn btn-light text-danger btn-sm " type="button"
                                         id="dropdownMenuButton1" style="border-radius: 50px;border:1px solid gray"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="fas fa-ellipsis-vertical"></i>
                                     </button>
+
+                                    @endif
+                                  
+                                 
                                     <ul class="dropdown-menu shadow "
                                         style="font-size: 13px;position: absolute;z-index: 9999;top:100%;left:0"
                                         aria-labelledby="dropdownMenuButton1">
                                         <li>
-                                            <button class="dropdown-item setHired">Set as Hired </button>
+                                            <button class="dropdown-item setHired"
+                                                data-arr="{{ json_encode([
+                                                    'jobID' => $jobID,
+                                                    'userID'=> $userID
+                                                ]) }}">Set
+                                                as Hired </button>
                                         </li>
 
-                                        @if($item->status == 2)
-                                        <li>
-                                            <button class="dropdown-item resendEmailInvite"
-                                                data-arr="{{ json_encode([
-                                                    'jobtitle' => $jobtitle,
-                                                    'applicantfullname' => $userName,
-                                                    'applicantemail' => $email,
-                                                    'appID' => $item->id,
-                                                ]) }}">Resend
-                                                Email Invitation</i></button>
-                                        </li>
+                                        @if ($item->status == 2)
+                                            <li>
+                                                <button class="dropdown-item resendEmailInvite"
+                                                    data-arr="{{ json_encode([
+                                                        'jobtitle' => $jobtitle,
+                                                        'applicantfullname' => $userName,
+                                                        'applicantemail' => $email,
+                                                        'appID' => $item->id,
+                                                    ]) }}">Resend
+                                                    Email Invitation</i></button>
+                                            </li>
                                         @endif
                                         @if ($item->status != 2)
                                             <li>
-                                                <button class="dropdown-item resendAcknowledgement"   
-                                                data-arr="{{ json_encode([
-                                                    'jobtitle' => $jobtitle,
-                                                    'applicantfullname' => $userName,
-                                                    'applicantemail' => $email,
-                                                 
-                                                ]) }}"  >Resend Acknowledgement Email</button>
+                                                <button class="dropdown-item resendAcknowledgement"
+                                                    data-arr="{{ json_encode([
+                                                        'jobtitle' => $jobtitle,
+                                                        'applicantfullname' => $userName,
+                                                        'applicantemail' => $email,
+                                                    ]) }}">Resend
+                                                    Acknowledgement Email</button>
                                             </li>
 
                                             <li>
@@ -153,6 +165,7 @@
                                             </script>
                                         </li>
                                     </ul>
+                                  
                                     @include('components.modal', [
                                         'id' => 'setInterview' . $item->id,
                                         'modalsize' => 'modal-lg',
@@ -217,6 +230,9 @@
                                         {{ date('M j,Y  h:ia ', strtotime($item->interview_date)) }}
                                     </span>
                                 @break
+                                @case(100)
+                                <span class="badge bg-success">HIRED <i class="fas fa-check-circle"></i></span>
+                                @break
                             @endswitch
                         </td>
                         <td>
@@ -277,31 +293,57 @@
 
 <script>
     $(document).ready(function() {
-        $('.setHired').click(function(){
-            swal({
-            title: "Confirm Action",
-            text: "Are you sure you want to set the status to HIRED? , This will mark the job position as FILLED and other applicants as NOT QUALIFIED",
-            icon: "warning",
-            buttons: ['No','Yes'],
-            dangerMode: true,
-        }).then((confirmed) => {
-            if(confirmed){
-
-            }
-        });
-        });
-        $('.resendAcknowledgement').click(function(){
+        $('.setHired').click(function() {
             var data = $(this).data('arr');
             swal({
-            title: "Confirm Action",
-            text: "Are you sure you want to resend interview invitation email?",
-            icon: "warning",
-            buttons: ['No','Yes'],
-            dangerMode: false,
-        }).then((confirmed) => {
+                title: "Confirm Action",
+                text: "Are you sure you want to set the status to HIRED? , This will mark the job position as FILLED and other applicants as NOT QUALIFIED",
+                icon: "warning",
+                buttons: ['No', 'Yes'],
+                dangerMode: true,
+            }).then((confirmed) => {
+                if (confirmed) {
+                    Action.Set_as_Hired(data, function(response) {
+                        if (response == 'success') {
+                            Toastify({
+                                text: "Applicant Mark as Hired,  Job post has been marked as filled  \n and other applicants marked as not qualified!",
+                                duration: 5000,
+                                newWindow: true,
+                                close: true,
+                                gravity: "top",
+                                position: "right",
+                                stopOnFocus: true,
+                                style: {
+                                    background: "#68B984",
+                                    color: "white",
+                                    borderRadius: "2px",
+                                    paddingX: "40px",
+                                    marginTop: "45px",
+                                    fontWeight: "bold",
+                                    fontSize: "13px"
+                                },
+                                onClick: function() {},
+                                callback: function() {
+                                    window.location.reload();
+                                }
+                            }).showToast();
+                        }
+                    });
+                }
+            });
+        });
+        $('.resendAcknowledgement').click(function() {
+            var data = $(this).data('arr');
+            swal({
+                title: "Confirm Action",
+                text: "Are you sure you want to resend interview invitation email?",
+                icon: "warning",
+                buttons: ['No', 'Yes'],
+                dangerMode: false,
+            }).then((confirmed) => {
 
-            if (confirmed) {
-            Toastify({
+                if (confirmed) {
+                    Toastify({
                         text: "Sending Acknowledgement Please wait...",
                         duration: 3000,
                         newWindow: true,
@@ -320,56 +362,56 @@
                         },
                         onClick: function() {},
                         callback: function() {
-                          
-                        }
-                    }).showToast();
-            
-            Action.Resend_Acknowledgement(data,function(response){
-                  
-                    if (response == "sentSuccessfully") {
-                    Toastify({
-                        text: "Email Acknowledgement Sent Successfully!",
-                        duration: 3000,
-                        newWindow: true,
-                        close: true,
-                        gravity: "top",
-                        position: "right",
-                        stopOnFocus: true,
-                        style: {
-                            background: "#68B984",
-                            color: "white",
-                            borderRadius: "2px",
-                            paddingX: "40px",
-                            marginTop: "45px",
-                            fontWeight: "bold",
-                            fontSize: "13px"
-                        },
-                        onClick: function() {},
-                        callback: function() {
-                          
-                        }
-                    }).showToast();
-                }
-    
-            })
 
-        }
-        });
-          
+                        }
+                    }).showToast();
+
+                    Action.Resend_Acknowledgement(data, function(response) {
+
+                        if (response == "sentSuccessfully") {
+                            Toastify({
+                                text: "Email Acknowledgement Sent Successfully!",
+                                duration: 3000,
+                                newWindow: true,
+                                close: true,
+                                gravity: "top",
+                                position: "right",
+                                stopOnFocus: true,
+                                style: {
+                                    background: "#68B984",
+                                    color: "white",
+                                    borderRadius: "2px",
+                                    paddingX: "40px",
+                                    marginTop: "45px",
+                                    fontWeight: "bold",
+                                    fontSize: "13px"
+                                },
+                                onClick: function() {},
+                                callback: function() {
+
+                                }
+                            }).showToast();
+                        }
+
+                    })
+
+                }
+            });
+
         });
         $('.resendEmailInvite').click(function() {
             var data = $(this).data('arr');
 
 
             swal({
-            title: "Confirm Action",
-            text: "Are you sure you want to resend interview invitation email?",
-            icon: "warning",
-            buttons: ['No','Yes'],
-            dangerMode: false,
-        }).then((confirmed) => {
-            if (confirmed) {
-                         Toastify({
+                title: "Confirm Action",
+                text: "Are you sure you want to resend interview invitation email?",
+                icon: "warning",
+                buttons: ['No', 'Yes'],
+                dangerMode: false,
+            }).then((confirmed) => {
+                if (confirmed) {
+                    Toastify({
                         text: "Sending Invitation Please wait...",
                         duration: 3000,
                         newWindow: true,
@@ -388,39 +430,39 @@
                         },
                         onClick: function() {},
                         callback: function() {
-                          
+
                         }
                     }).showToast();
-            Action.Resend_Invitation(data, function(response) {
-               
-                if (response == "sentSuccessfully") {
-                    Toastify({
-                        text: "Email Invitation Sent Successfully!",
-                        duration: 3000,
-                        newWindow: true,
-                        close: true,
-                        gravity: "top",
-                        position: "right",
-                        stopOnFocus: true,
-                        style: {
-                            background: "#68B984",
-                            color: "white",
-                            borderRadius: "2px",
-                            paddingX: "40px",
-                            marginTop: "45px",
-                            fontWeight: "bold",
-                            fontSize: "13px"
-                        },
-                        onClick: function() {},
-                        callback: function() {
-                          
+                    Action.Resend_Invitation(data, function(response) {
+
+                        if (response == "sentSuccessfully") {
+                            Toastify({
+                                text: "Email Invitation Sent Successfully!",
+                                duration: 3000,
+                                newWindow: true,
+                                close: true,
+                                gravity: "top",
+                                position: "right",
+                                stopOnFocus: true,
+                                style: {
+                                    background: "#68B984",
+                                    color: "white",
+                                    borderRadius: "2px",
+                                    paddingX: "40px",
+                                    marginTop: "45px",
+                                    fontWeight: "bold",
+                                    fontSize: "13px"
+                                },
+                                onClick: function() {},
+                                callback: function() {
+
+                                }
+                            }).showToast();
                         }
-                    }).showToast();
+                    });
                 }
             });
-            }
-        });
-           
+
         })
     });
 </script>

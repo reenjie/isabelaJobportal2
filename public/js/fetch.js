@@ -19,7 +19,9 @@ class Fetch {
                 fontWeight: "bold",
                 fontSize: "13px",
             },
-            onClick: function () {},
+            onClick: function () {
+            
+            },
         }).showToast();
     }
 

@@ -60,6 +60,7 @@ Route::controller(App\Http\Controllers\JobApplicationController::class)->group(
         Route::post('fetch/Applications','Fetch');
         Route::post('update/applicantStatus','MarkApplicants');
         Route::post('application/setInterview','setInterview')->name('admin.setInterview');
+        Route::post('set/Hired','SetasHired');
       
     }
 );

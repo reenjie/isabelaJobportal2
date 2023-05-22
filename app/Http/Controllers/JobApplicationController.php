@@ -227,4 +227,31 @@ class JobApplicationController extends Controller
         ]);
         
     }
+
+    public function SetasHired(Request $request){
+        $data = $request->data;
+        $jobID = $data['jobID'];
+        $userID = $data['userID'];
+
+         /* marked the jobpost filled */
+        Jobpost::find($jobID)->update([
+            'is_filled'=>1,
+        ]);
+
+        /* mark other applicants not qualified */
+        Applications::where('applicant_id', '!=', $userID)
+        ->where('job_post_id', $jobID)
+        ->update([
+            'status'=>0
+        ]);
+
+        Applications::where('applicant_id', $userID)
+        ->where('job_post_id', $jobID)
+        ->update([
+            'status'=>100
+        ]);
+
+        
+       return "success";
+    }
 }

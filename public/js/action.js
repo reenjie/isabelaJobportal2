@@ -79,4 +79,19 @@ class Action {
         });
 
     }
+
+
+    static Set_as_Hired(data,callback){
+        $.ajax({
+            url: "set/Hired",
+            type: "POST",
+            data: { data:data,_token: Action.csrfToken },
+            success: function (response) {
+                if (typeof callback === "function") {
+                    callback(response);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {},
+        });
+    }
 }
