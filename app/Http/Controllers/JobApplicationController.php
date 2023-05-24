@@ -163,6 +163,13 @@ class JobApplicationController extends Controller
         })
             ->orderBy('date_created', 'desc')
             ->get();
+        
+            $InterviewSched = DB::table('applicants as a')
+            ->select(DB::raw("CONCAT(a.first_name, ' ', a.middle_name, ' ', a.last_name) as Name"), 'app.interview_date')
+            ->join('applications as app', 'app.applicant_id', '=', 'a.id')
+            ->whereNotNull('app.interview_date')
+            ->get();
+
 
         return view(
             'admin.jobapplication',
@@ -172,7 +179,9 @@ class JobApplicationController extends Controller
                 'application_docs',
                 'jobpost',
                 'hrmpsb',
-                'applicants'
+                'applicants',
+                'InterviewSched'
+
             )
         )->with('links', $applications);
     }

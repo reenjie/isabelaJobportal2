@@ -355,6 +355,34 @@ body {
   background-color: gray;
   pointer-events: none;
 }
+
+
+.dashboardCard{
+  padding: 40px;
+  border-radius: 0 10px 10px 0;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  
+}
+
+.dashboardCard h5 {
+  font-weight: bold;
+  font-size: 16px;
+  font-family: 'Bruno Ace SC', cursive;
+  color:#7C96AB;
+ 
+  
+}
+.dashboardCard span {
+  font-weight: bold;
+  color: #537188
+}
+.dashboardCard  .icon {
+  float: right;
+  font-size:35px;
+
+  color:#7C96AB;
+
+}
 @keyframes swing {
   0% {
     transform: rotate(0deg);
