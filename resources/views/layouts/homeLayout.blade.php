@@ -68,8 +68,7 @@
         </div>
         <div class="drop" id="drop">
             <div class="droplinks">
-                <a href="#"><i class="fas fa-user-circle"></i><span>Profile</span></a>
-                <a href="#"> <i class="fas fa-cogs"></i><span>Settings</span></a>
+                <a href="{{route('myprofile')}}"><i class="fas fa-user-circle"></i><span>Profile</span></a>         
                 <a href="javascript:void()" id="btnlogout"><i class="fas fa-power-off"></i> <span>Logout</span></a>
                 <form action="{{ route('logout') }}" method="post"> @csrf
                     <button type="submit" class="d-none" id="logout"></button>
@@ -86,6 +85,8 @@
             </div>
 
             <div class="links">
+                @if(session()->has('userRole'))
+                @if(session()->get('userRole') == 7)
                 <a href="{{ route('admin.dashboard') }}"
                     class="@if ($active == 'dashboard') activesidebar usernone @endif"><i
                         class="fas fa-dashboard"></i><span>Dashboard</span></a>
@@ -115,6 +116,10 @@
                 <a href="{{ route('admin.auditlogs') }}"
                     class="@if ($active == 'auditlogs') activesidebar @endif"><i
                         class="fas fa-code"></i><span>Audit Logs</span></a>
+                @else 
+                    
+                @endif
+             @endif
             </div>
             <div class="signature">
                 <h6>v2.0</h6>

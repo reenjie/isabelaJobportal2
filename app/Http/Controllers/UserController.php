@@ -253,4 +253,24 @@ class UserController extends Controller
        
         return 'success';
     }
+
+    public function changepassV(Request $request){
+        $newpass = $request->newpass;
+        $userID  = $request->userID;
+        User::find($userID)->update([
+            'password'=>Hash::make($newpass),
+            'email_verified_at'=>date('Y-m-d h:i:s')
+        ]);
+
+        Activity_Log::SaveLogs([
+            'description'=>'Force Account | Verify & Change Pass',
+            'subjecttype'=>null,
+            'subjectID' => null,
+            'causerID' =>Auth::user()->id,
+        ]);
+
+        return redirect()->back()->with('success','Password Changed Successfully');
+
+    }
+
 }

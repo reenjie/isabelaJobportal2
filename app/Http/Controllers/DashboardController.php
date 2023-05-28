@@ -64,4 +64,8 @@ class DashboardController extends Controller
             )
         );
     }
+
+    public function employee_Dashboard(Request $request){
+       return view('employee.dashboard');
+    }
 }

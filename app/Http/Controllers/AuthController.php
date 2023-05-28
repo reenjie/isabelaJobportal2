@@ -17,6 +17,7 @@ class AuthController extends Controller
     }
     public function index()
     {
+        session()->forget('userRole');
         $json = file_get_contents(resource_path('json/logerrortimer.json'));
         $data = json_decode($json, true);
         return view('auth.login', compact('data'));
@@ -137,6 +138,7 @@ class AuthController extends Controller
             'subjectID' => null,
             'causerID' =>Auth::user()->id,
         ]);
+     
         Auth::logout();
         return redirect()->route('home');
     }

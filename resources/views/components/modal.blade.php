@@ -42,7 +42,13 @@
                         @case('viewRequirements')
                      @include('admin.components.requirements_modal')
                         @break;
+                        @case('changepasswordverify')
+                        @include('admin.components.changepassword_modal')
+                        @break;
                         @endswitch
+                        
+
+                    
 
                 </div>
             </div>

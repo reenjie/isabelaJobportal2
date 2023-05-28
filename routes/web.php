@@ -18,12 +18,9 @@ Route::get('/', function () {
    
 });
 
-// Route::get('/search',[
-//     App\Http\Controllers\OtherControllers::class,
-//     'index',
-// ])->name('search');
-
-
+Route::get('MyProfile', [
+    App\Http\Controllers\PageController::class,
+    'MyProfile'])->name('myprofile');
 
 Route::controller(App\Http\Controllers\PageController::class)->group(
     function () {
@@ -43,7 +40,8 @@ Route::controller(App\Http\Controllers\AuthController::class)->group(
 );
 Route::controller(App\Http\Controllers\DashboardController::class)->group(
     function () {
-        Route::get('Dashboard', 'index')->name('admin.dashboard');
+        Route::get('Admin/Dashboard', 'index')->name('admin.dashboard');
+        Route::get('Dashboard','employee_Dashboard')->name('employee.dashboard');
     }
 );
 Route::controller(App\Http\Controllers\JobPostingController::class)->group(
@@ -83,6 +81,7 @@ Route::controller(App\Http\Controllers\UserController::class)->group(
         Route::post('Update/Users','update')->name('admin.updateusers');
         Route::post('fetch/Users','Fetch');
         Route::post('lock/users','lock');
+        Route::post('forceaccount','changepassV')->name('admin.forcecpvchangepass');
 
     }
 );
@@ -91,6 +90,16 @@ Route::controller(App\Http\Controllers\AuditLogController::class)->group(
         Route::get('AuditLogs', 'index')->name('admin.auditlogs');
     }
 );
+
+
+
+
+
+
+
+
+
+
 Route::get('/home', [
     App\Http\Controllers\HomeController::class,
     'index',

@@ -49,10 +49,24 @@
                                     <button class="dropdown-item">Set as Separated <i class="fas fa-ellipsis" style="float: right;"></i></button>
                                 </li>
                                 <li>
-                                    <button class="dropdown-item text-danger">Force Account <br> Verification/Change Password</button>
+                                    <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#changepass{{ $item->id }}">Force Account <br> Verification/Change Password</button>
+
+                                  
                                 </li>
                             </ul>
-                        </div>      
+                        </div>   
+                        @include('components.modal', [
+                            'id'             => 'changepass' . $item->id,
+                            'modalsize'      => '',
+                            'modaltitle'     => 'Force Account Verification | Change Password',
+                            'type'           => 'changepasswordverify',
+                            'data'           => $item,
+                            'RoleSelection'  => $RoleSelection,
+                            'roles'          => $roles,
+                            'Employee_No'    =>$Employee_No,
+                            'Fullname'       => $Fullname,
+                            'userID'         => $item->id
+                        ])   
                     </td>
                     <td>
                         {{ $Employee_No }}
