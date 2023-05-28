@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Announcement;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\Activity_Log;
 class AnnouncementController extends Controller
 {
     public function __construct()
@@ -33,7 +34,13 @@ class AnnouncementController extends Controller
                 'post_until'=>date('Y-m-d H:i:s', strtotime('+30 days')),
                 'created_by'=>Auth::user()->id
             ]);
-    
+            
+            Activity_Log::SaveLogs([
+                'description'=>'Posted Announcement',
+                'subjecttype'=>null,
+                'subjectID' => null,
+                'causerID' =>Auth::user()->id,
+            ]);
             return redirect()->back()->with('success','Announcement Posted Successfully!');
 
         }else {
@@ -42,7 +49,14 @@ class AnnouncementController extends Controller
                 'title' => $title,
                 'content' => '<p>'.$content.'</p>',
             ]);
-     
+            
+                
+            Activity_Log::SaveLogs([
+                'description'=>'Reposted & Updated Announcement',
+                'subjecttype'=>null,
+                'subjectID' => null,
+                'causerID' =>Auth::user()->id,
+            ]);
             return redirect()->back()->with('success','Announcement RePosted Successfully!');
         }
         

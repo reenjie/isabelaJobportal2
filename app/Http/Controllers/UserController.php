@@ -8,6 +8,8 @@ use App\Models\Roles;
 use App\Models\AssignedRoles;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Helpers\Activity_Log;
+use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     public function __construct()
@@ -108,7 +110,13 @@ class UserController extends Controller
                 'scope' => null,
             ]);
         }
-
+            
+        Activity_Log::SaveLogs([
+            'description'=>'Added New User',
+            'subjecttype'=>null,
+            'subjectID' => null,
+            'causerID' =>Auth::user()->id,
+        ]);
         return redirect()
             ->back()
             ->with('success', 'User added successfully!');
@@ -116,6 +124,13 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+            
+        Activity_Log::SaveLogs([
+            'description'=>'Updated Users',
+            'subjecttype'=>null,
+            'subjectID' => null,
+            'causerID' =>Auth::user()->id,
+        ]);
         $email = $request->email;
         $selectedroles = $request->selectedroles;
         $userID = $request->userID;
@@ -219,6 +234,23 @@ class UserController extends Controller
             'is_locked' => $lock ? 1 : 0,
         ]);
 
+        if($lock == 1){
+            Activity_Log::SaveLogs([
+                'description'=>'Locked User',
+                'subjecttype'=>null,
+                'subjectID' => null,
+                'causerID' =>Auth::user()->id,
+            ]);
+        }else {
+            Activity_Log::SaveLogs([
+                'description'=>'Unlocked User',
+                'subjecttype'=>null,
+                'subjectID' => null,
+                'causerID' =>Auth::user()->id,
+            ]);
+        }
+            
+       
         return 'success';
     }
 }

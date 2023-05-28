@@ -12,7 +12,9 @@ use App\Models\Employee;
 use App\Models\Roles;
 use App\Models\AssignedRoles;
 use App\Models\User;
+use App\Helpers\Activity_Log;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
 class JobApplicationController extends Controller
 {
     public function __construct()
@@ -195,6 +197,12 @@ class JobApplicationController extends Controller
                 Applications::find($id)->update([
                     'status' => 0,
                 ]);
+                Activity_Log::SaveLogs([
+                    'description'=>'Mark as Not qualified',
+                    'subjecttype'=>null,
+                    'subjectID' => null,
+                    'causerID' =>Auth::user()->id,
+                ]);
                 return 'success';
         }
     }
@@ -223,6 +231,13 @@ class JobApplicationController extends Controller
             'venue' =>$venue,
             'hmpsb_ids' => implode(',',$selectedInterviewer),
             'date_updated'=>date('Y-m-d h:i:s')
+        ]);
+
+        Activity_Log::SaveLogs([
+            'description'=>'Set an Interview',
+            'subjecttype'=>null,
+            'subjectID' => null,
+            'causerID' =>Auth::user()->id,
         ]);
         return redirect()->route('mail.sendInterview', [
             'applicantfullname' => $applicantfullname,
@@ -260,6 +275,12 @@ class JobApplicationController extends Controller
             'status'=>100
         ]);
 
+        Activity_Log::SaveLogs([
+            'description'=>'Set applicant Hired',
+            'subjecttype'=>null,
+            'subjectID' => null,
+            'causerID' =>Auth::user()->id,
+        ]);
         
        return "success";
     }

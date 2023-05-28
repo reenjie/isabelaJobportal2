@@ -17,8 +17,8 @@
     data.addColumn('string', 'Topping');
     data.addColumn('number', 'Slices');
     data.addRows([
-      ['Male', 3],
-      ['Female', 1],
+      ['Male', {{$applicants->where('sex', 'male')->count()}}],
+      ['Female',{{$applicants->where('sex', 'female')->count()}}],
      
     ]);
 

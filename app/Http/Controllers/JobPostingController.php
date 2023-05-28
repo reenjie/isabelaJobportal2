@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Jobpost;
 use App\Models\Offices;
+use App\Helpers\Activity_Log;
+use Illuminate\Support\Facades\Auth;
 class JobPostingController extends Controller
 {
     public function __construct()
@@ -48,6 +50,13 @@ class JobPostingController extends Controller
             'created_by'            =>0
         ]);
 
+        Activity_Log::SaveLogs([
+            'description'=>'Posted new Job',
+            'subjecttype'=>null,
+            'subjectID' => null,
+            'causerID' =>Auth::user()->id,
+        ]);
+
     return redirect()->back()->with('success',"New Job Published successfully!");
 
     }
@@ -58,6 +67,21 @@ class JobPostingController extends Controller
         Jobpost::findorFail($request->id)->update([
             'status'=>$request->publish
         ]);
+        if($request->publish == 1){
+            Activity_Log::SaveLogs([
+                'description'=>'Publish a Job',
+                'subjecttype'=>null,
+                'subjectID' => null,
+                'causerID' =>Auth::user()->id,
+            ]);
+        }else {
+            Activity_Log::SaveLogs([
+                'description'=>'Unpublish a Job',
+                'subjecttype'=>null,
+                'subjectID' => null,
+                'causerID' =>Auth::user()->id,
+            ]);
+        }
         return "success";
     }
 
@@ -89,6 +113,13 @@ class JobPostingController extends Controller
             'competencies'          =>$competencies,
             'educational_background'  =>$education,
         ]); 
+
+        Activity_Log::SaveLogs([
+            'description'=>'Updated a Job',
+            'subjecttype'=>null,
+            'subjectID' => null,
+            'causerID' =>Auth::user()->id,
+        ]);
 
       return redirect()->back()->with('success',"Job Content Updated Successfully!");
     }

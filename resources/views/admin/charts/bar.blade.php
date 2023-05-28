@@ -4,8 +4,10 @@
     function drawChart() {
       var data = google.visualization.arrayToDataTable([
         ["Element", "Density", { role: "style" } ],
-        ["Male", 8.94, "#569DAA"],
-        ["Female", 10.49, "#F15A59"]
+        ["18-25",{{count($firstSet)}}, "#569DAA"],
+        ["26-30", {{count($secondSet)}}, "#F79327"],
+        ["31-40", {{count($thirdSet)}}, "#ACBCFF"],
+        ["41-60", {{count($lastSet)}}, "#FFE194"]
       
       ]);
 
