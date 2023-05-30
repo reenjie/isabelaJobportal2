@@ -26,6 +26,22 @@ Route::controller(App\Http\Controllers\PageController::class)->group(
     function () {
         Route::post('Job/Post/Viewing', 'ViewJob')->name('viewItem');
         Route::get('register', 'registerpage')->name('register');
+
+
+        Route::get('personal_data','personal_data')->name('employee.personal_data');
+        Route::get('service_records','service_records')->name('employee.service_records');
+        Route::get('daily_time_records','daily_time_records')->name('employee.daily_time_records');
+        Route::get('leave_credits','leave_credits')->name('employee.leave_credits');
+        Route::get('loan_transaction_records','loan_transaction_records')->name('employee.loan_transaction_records');
+        Route::get('payslips','payslips')->name('employee.payslips');
+        Route::get('overtime_records','overtime_records')->name('employee.overtime_records');
+        Route::get('discipline_records','discipline_records')->name('employee.discipline_records');
+        Route::get('leave_application','leave_application')->name('employee.leave_application');
+        Route::get('compensatory_timeoff','compensatory_timeoff')->name('employee.compensatory_timeoff');
+        Route::get('dtr_correction','dtr_correction')->name('employee.dtr_correction');
+        Route::get('monetization','monetization')->name('employee.monetization');
+        Route::get('official_business_pass','official_business_pass')->name('employee.official_business_pass');
+        Route::get('clearance','clearance')->name('employee.clearance');
       
     }
 );

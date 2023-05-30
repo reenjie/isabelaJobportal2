@@ -117,7 +117,54 @@
                     class="@if ($active == 'auditlogs') activesidebar @endif"><i
                         class="fas fa-code"></i><span>Audit Logs</span></a>
                 @else 
-                    
+                <style>
+                    #employeetabs{
+                   
+                        border-radius: 10px
+                    }
+                    #employeetabs a {
+                        font-size: 13px;
+                      
+                        border-bottom:1px solid #526D82;
+                       
+                    }
+                </style>
+                    <div style="padding:5px;height:70vh;overflow-y:scroll;" id="employeetabs">
+                         <span style="font-size:10px;margin-left:10px;text-transform:uppercase" class="text-warning">REPORTS</span>
+                        <a href="{{ route('admin.announcements') }}"
+                    class="@if ($active == 'announcement') activesidebar @endif"><span>Dashboard</span></a> 
+
+                         <span style="font-size:10px;margin-left:10px;text-transform:uppercase" class="text-warning">RECORDS</span>
+                           <a href="{{ route('employee.personal_data') }}"
+                    class="@if ($active == 'personal_data') activesidebar @endif"><span>Personal Data</span></a> 
+                          <a href="{{ route('employee.service_records') }}"
+                    class="@if ($active == 'service_records') activesidebar @endif"><span>Service Records</span></a> 
+                          <a href="{{ route('employee.daily_time_records') }}"
+                    class="@if ($active == 'daily_time_records') activesidebar @endif"><span>Daily Time Records</span></a> 
+                          <a href="{{ route('employee.leave_credits') }}"
+                    class="@if ($active == 'leave_credits') activesidebar @endif"><span>Leave Credits</span></a> 
+                          <a href="{{ route('employee.loan_transaction_records') }}"
+                    class="@if ($active == 'loan_transaction_records') activesidebar @endif"><span>Loan Transaction Records</span></a> 
+                          <a href="{{ route('employee.payslips') }}"
+                    class="@if ($active == 'payslips') activesidebar @endif"><span>Payslips</span></a> 
+                          <a href="{{ route('employee.overtime_records') }}"
+                    class="@if ($active == 'overtime_records') activesidebar @endif"><span>Overtime Records</span></a> 
+                          <a href="{{ route('employee.discipline_records') }}"
+                    class="@if ($active == 'discipline_records') activesidebar @endif"><span>Discipline Records</span></a> 
+           <span style="font-size:10px;margin-left:10px;text-transform:uppercase" class="text-warning">MY ONLINE request</span>
+            <a href="{{ route('employee.leave_application') }}"
+                    class="@if ($active == 'leave_application') activesidebar @endif"><span>Leave Application</span></a> 
+                     <a href="{{ route('employee.compensatory_timeoff') }}"
+                    class="@if ($active == 'compensatory_timeoff') activesidebar @endif"><span>Compensatory Time-off</span></a> 
+                     <a href="{{ route('employee.dtr_correction') }}"
+                    class="@if ($active == 'dtr_correction') activesidebar @endif"><span>DTR Correction</span></a> 
+                     <a href="{{ route('employee.monetization') }}"
+                    class="@if ($active == 'monetization') activesidebar @endif"><span>Monetization</span></a> 
+                     <a href="{{ route('employee.official_business_pass') }}"
+                    class="@if ($active == 'official_business_pass') activesidebar @endif"><span>Official Business Pass</span></a> 
+                     <a href="{{ route('employee.clearance') }}"
+                    class="@if ($active == 'clearance') activesidebar @endif"><span>Clearance</span></a> 
+                    </div>
                 @endif
              @endif
             </div>
