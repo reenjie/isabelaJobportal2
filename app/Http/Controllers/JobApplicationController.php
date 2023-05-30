@@ -52,7 +52,7 @@ class JobApplicationController extends Controller
                 })
                 ->where('status', $request->status)
                 ->where('job_post_id', $request->jobpost)
-                ->orderBy('date_created', 'asc')
+                ->orderBy('date_created', 'desc')
                 ->paginate(10);
         } elseif (isset($request->status) && isset($request->search)) {
             /* filter and search */
@@ -67,7 +67,7 @@ class JobApplicationController extends Controller
                         ->orWhere('middle_name', 'like', '%' . $search . '%');
                 })
                 ->where('status', $request->status)
-                ->orderBy('date_created', 'asc')
+                ->orderBy('date_created', 'desc')
                 ->paginate(10);
         } elseif (isset($request->jobpost) && isset($request->search)) {
             /* jobpost and search */
@@ -82,7 +82,7 @@ class JobApplicationController extends Controller
                         ->orWhere('middle_name', 'like', '%' . $search . '%');
                 })
                 ->where('job_post_id', $request->jobpost)
-                ->orderBy('date_created', 'asc')
+                ->orderBy('date_created', 'desc')
                 ->paginate(10);
         } elseif (isset($request->status) && isset($request->jobpost)) {
             /* filter and jobpost */
@@ -90,14 +90,14 @@ class JobApplicationController extends Controller
             $applications = $qrybuilder
                 ->where('status', $request->status)
                 ->where('job_post_id', $request->jobpost)
-                ->orderBy('date_created', 'asc')
+                ->orderBy('date_created', 'desc')
                 ->paginate(10);
         } elseif (isset($request->status)) {
             /* filter only */
 
             $applications = $qrybuilder
                 ->where('status', $request->status)
-                ->orderBy('date_created', 'asc')
+                ->orderBy('date_created', 'desc')
 
                 ->paginate(10);
         } elseif (isset($request->jobpost)) {
@@ -105,7 +105,7 @@ class JobApplicationController extends Controller
 
             $applications = $qrybuilder
                 ->where('job_post_id', $request->jobpost)
-                ->orderBy('date_created', 'asc')
+                ->orderBy('date_created', 'desc')
                 ->paginate(10);
         } elseif (isset($request->search)) {
             /* searchonly */
@@ -120,7 +120,7 @@ class JobApplicationController extends Controller
                         ->orWhere('middle_name', 'like', '%' . $search . '%');
                 })
 
-                ->orderBy('date_created', 'asc')
+                ->orderBy('date_created', 'desc')
                 ->paginate(10);
         } else {
             $query = DB::table('applications')
@@ -134,7 +134,7 @@ class JobApplicationController extends Controller
                     DB::raw('CURDATE() - INTERVAL 31 DAY')
                 )
                 ->where('date_created', '<=', DB::raw('CURDATE()'))
-                ->orderBy('date_created', 'asc');
+                ->orderBy('date_created', 'desc');
 
             $applications = $query->paginate(10);
         }
