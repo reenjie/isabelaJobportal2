@@ -123,9 +123,9 @@
                         border-radius: 10px
                     }
                     #employeetabs a {
-                        font-size: 13px;
+                        font-size: 12.8px;
                       
-                        border-bottom:1px solid #526D82;
+                        /* border-bottom:1px solid #526D82; */
                        
                     }
                 </style>

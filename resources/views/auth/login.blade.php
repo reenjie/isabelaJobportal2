@@ -22,6 +22,16 @@
             @endphp
         @endif
 
+
+        @if(session()->has('userBlocked'))
+                <script>
+              swal({
+                title: "Account Blocked",
+                text: "Your account has been blocked, Please Contact HRMO",
+                icon: "error",
+            });
+                </script>
+        @endif
         <div class="loginTitle">
             <img src="{{ asset('logo/loginlogo.png') }}" alt="">
             <h5>Sign in </h5>

@@ -3,27 +3,20 @@
 namespace App\Http\Controllers;
 use App\Models\JobPostings;
 use App\Models\Employee;
+use App\Models\PDS;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
+    
     public function __construct()
     {
         $this->middleware('auth');
+       
+        
     }
-    // public function ViewJob(Request $request){
-    //  $jobid = $request->jobid;
-
-    //  $search = JobPostings::findorFail($jobid);
-    //  return view('apply',compact('search'));
-
-    // }
-
-    // public function registerpage(Request $request){
-    //    return view('auth.register');
-    // }
-
+  
     public function MyProfile(Request $request)
     {
         if (Auth::user()->emp_id) {
@@ -37,7 +30,9 @@ class PageController extends Controller
 
     public function personal_data(Request $request)
     {
-        return view('employee.personal_data');
+     
+        $pdsdata = PDS::where('emp_id',Auth::user()->emp_id)->get();
+        return view('employee.personal_data',compact('pdsdata'));
     }
     public function service_records(Request $request)
     {

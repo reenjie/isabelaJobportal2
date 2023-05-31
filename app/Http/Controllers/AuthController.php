@@ -30,6 +30,7 @@ class AuthController extends Controller
         $json = file_get_contents(resource_path('json/logerrortimer.json'));
         $data = json_decode($json, true);
         $firsterror = $data['FirstOffensecount'] - 1;
+        session()->forget('userBlocked');
         $credentials = [
             'email' => $email,
             'password' => $password,
@@ -37,6 +38,19 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             session()->forget('countingError');
             session()->forget('timer');
+
+            if(Auth::user()->is_locked == 1){
+                Activity_Log::SaveLogs([
+                    'description'=>'Logged-in Attempted | User Blocked',
+                    'subjecttype'=>null,
+                    'subjectID' => null,
+                    'causerID' =>Auth::user()->id,
+                ]);
+                session(["userBlocked"=>1]);
+                Auth::logout();
+                return redirect()->route('login');
+            }
+
            Activity_Log::SaveLogs([
                 'description'=>'Logged-in',
                 'subjecttype'=>null,
