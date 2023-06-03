@@ -143,14 +143,14 @@
                     class="@if ($active == 'daily_time_records') activesidebar @endif"><span>Daily Time Records</span></a> 
                           <a href="{{ route('employee.leave_credits') }}"
                     class="@if ($active == 'leave_credits') activesidebar @endif"><span>Leave Credits</span></a> 
-                          <a href="{{ route('employee.loan_transaction_records') }}"
-                    class="@if ($active == 'loan_transaction_records') activesidebar @endif"><span>Loan Transaction Records</span></a> 
+                          {{-- <a href="{{ route('employee.loan_transaction_records') }}"
+                    class="@if ($active == 'loan_transaction_records') activesidebar @endif"><span>Loan Transaction Records</span></a>  --}}
                           <a href="{{ route('employee.payslips') }}"
                     class="@if ($active == 'payslips') activesidebar @endif"><span>Payslips</span></a> 
-                          <a href="{{ route('employee.overtime_records') }}"
+                          {{-- <a href="{{ route('employee.overtime_records') }}"
                     class="@if ($active == 'overtime_records') activesidebar @endif"><span>Overtime Records</span></a> 
                           <a href="{{ route('employee.discipline_records') }}"
-                    class="@if ($active == 'discipline_records') activesidebar @endif"><span>Discipline Records</span></a> 
+                    class="@if ($active == 'discipline_records') activesidebar @endif"><span>Discipline Records</span></a>  --}}
            <span style="font-size:10px;margin-left:10px;text-transform:uppercase" class="text-warning">MY ONLINE request</span>
             <a href="{{ route('employee.leave_application') }}"
                     class="@if ($active == 'leave_application') activesidebar @endif"><span>Leave Application</span></a> 
@@ -162,8 +162,8 @@
                     class="@if ($active == 'monetization') activesidebar @endif"><span>Monetization</span></a> 
                      <a href="{{ route('employee.official_business_pass') }}"
                     class="@if ($active == 'official_business_pass') activesidebar @endif"><span>Official Business Pass</span></a> 
-                     <a href="{{ route('employee.clearance') }}"
-                    class="@if ($active == 'clearance') activesidebar @endif"><span>Clearance</span></a> 
+                     {{-- <a href="{{ route('employee.clearance') }}"
+                    class="@if ($active == 'clearance') activesidebar @endif"><span>Clearance</span></a>  --}}
                     </div>
                 @endif
              @endif

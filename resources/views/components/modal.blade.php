@@ -45,6 +45,15 @@
                         @case('changepasswordverify')
                         @include('admin.components.changepassword_modal')
                         @break;
+                        @case('addNewleaveApp')
+                        @include('employee.components.leaveapp')
+                        @break;
+                        @case('viewingDates')
+                        @include('employee.components.viewDates')
+                        @break
+                        @case('addnewcomp')
+                        @include('employee.components.newcompensatorytimeoff')
+                        @break;
                         @endswitch
                         
 

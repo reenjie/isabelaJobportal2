@@ -107,6 +107,17 @@ Route::controller(App\Http\Controllers\AuditLogController::class)->group(
     }
 );
 
+Route::controller(App\Http\Controllers\EmployeeController::class)->group(
+    function () {
+        Route::post('cancel', 'cancel')->name('cancel.Request');
+        Route::post('cancel_CT', 'cancelct')->name('cancel.Requestct');
+        Route::post('save','save_leave_app')->name('save.leaveapplication');
+        Route::get('viewing/LeaveDates','viewLeavedates')->name('View.Dates');
+        Route::post('save/compensatory','savenewcompensatorytimeoff')->name('save.newcompensatorytimeoff');
+    }
+);
+
+
 
 
 

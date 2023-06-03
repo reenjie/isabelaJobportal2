@@ -2,24 +2,6 @@
 
 @section('content')
 <div class="container-fluid">
-    {{-- <div class="row p-5">
-        <div class="col-md-3">
-            <h6 style="font-size:13px;text-transform:uppercase">Lastname</h6>
-            <span style="font-style:italic">Caimor</span>
-        </div>
-        <div class="col-md-3">
-            <h6 style="font-size:13px;text-transform:uppercase">Firstname</h6>
-            <span style="font-style:italic">Caimor</span>
-        </div>
-        <div class="col-md-3">
-            <h6 style="font-size:13px;text-transform:uppercase">middlename</h6>
-            <span style="font-style:italic">Caimor</span>
-        </div>
-        <div class="col-md-3">
-            <h6 style="font-size:13px;text-transform:uppercase">Extension name</h6>
-            <span style="font-style:italic">Caimor</span>
-        </div>
-    </div> --}}
     <style>
         tr td {
             color:"green"
@@ -32,7 +14,13 @@
         $spouse = json_decode($pds->spouse_json);
         $parents = json_decode($pds->parents_json);
     @endphp
-   <div class="p-5 table-responsive ">
+
+   
+   <div class="p-4 table-responsive ">
+    <button class="btn btn-primary btn-sm" style="float:right;font-size:13px">
+       DOWNLOAD <i class="fas fa-download"></i>
+    </button>
+
     <table class="table table-bordered table-striped text-center "  >
         <colgroup>
             <col style="width: 20%;">
@@ -227,16 +215,17 @@
           
          </tr>
          <tr>
+         
             @php
-                $parentName = explode(" ", $spouse->first_name);
-                $pfirstName = $parentName[0];
-                $pmiddleName = $parentName[1];
-                $plastName = implode(" ", array_slice($parentName, 2));
+                $fathersName = explode(" ", $parents->father->first_name);
+                $ffirstName = $fathersName[0];
+                $fmiddleName = $fathersName[1];
+                $flastName = implode(" ", array_slice($fathersName, 2));
 
             @endphp
-            <td>{{$plastName}}</td>
-            <td>{{$pfirstName}}</td>
-            <td>{{$pmiddleName}}</td>
+            <td>{{$flastName}}</td>
+            <td>{{$ffirstName}}</td>
+            <td>{{$fmiddleName}}</td>
             <td colspan="2"></td>
         </tr>
 
@@ -256,15 +245,234 @@
           
          </tr>
          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td colspan="3"></td>
+            @php
+            if($parents->mother->first_name){
+                $mothersName = explode(" ", $parents->mother->first_name);
+            $mfirstName = $mothersName[0];
+            $mmiddleName = $mothersName[1];
+            $mlastName = implode(" ", array_slice($mothersName, 2));
+            }else{
+
+            $mfirstName = "";
+            $mmiddleName ="";
+            $mlastName = "";
+            }
+           
+
+                @endphp
+                <td>{{$mlastName}}</td>
+                <td>{{$mfirstName}}</td>
+                <td>{{$mmiddleName}}</td>
+                <td colspan="3"></td>
         </tr>
-      
-      
-     
+        <tr class="table-secondary">
+            <th colspan="5" style="text-align: center;font-size:13px;">
+                Childrens
+            </th>
+        </tr>
+        
+        <tr style="font-size:12px;text-transform:uppercase">
+            <th colspan="2">Name</th>
+            <th colspan="3">Date of Birth</th>
+       </tr>
+
+       @foreach ($pdsChild as $childs)
+           <tr>
+            <td colspan="2">{{$childs->name}}</td>
+            <td colspan="3">{{date('F j ,Y',strtotime($childs->dob))}}</td>
+           </tr>
+       @endforeach
+
+       <tr class="table-secondary">
+        <th colspan="5" style="text-align: center;font-size:13px;">
+           Eligibilities
+        </th>
+    </tr>
+
+    <tr style="font-size:12px;text-transform:uppercase">
+        <th>
+            Eligibility
+        </th>
+        <th>Rating</th>
+        <th>Date of Exam/Conferment</th>
+        <th>Place of Exam/Conferment</th>
+        <th>License No</th>
+    </tr>
+    @foreach ($pdseligibility as $elig)
+        <tr>
+            <td>{{$elig->name}}</td>
+            <td>{{$elig->rating}}</td>
+            <td>{{$elig->date_of_exam}}</td>
+            <td>{{$elig->place_of_exam}}</td>
+            <td>{{$elig->license_no}}
+                <br>
+                <span style="font-size:11px">RELEASE DATE: {{$elig->release_date}}</span>
+            </td>
+        </tr>
+    @endforeach
+
+   
     </table>
+    <table class="table table-bordered table-striped text-center " >
+        <colgroup>
+            <col style="width: 20%;">
+            <col style="width: 20%;">
+            <col style="width: 20%;">
+            <col style="width: 20%;">
+            <col style="width: 20%;">
+        </colgroup>
+        <tr class="table-secondary">
+            <th colspan="9" style="text-align: center;font-size:13px;">
+              Work Experiences
+            </th>
+        </tr>
+        <tr style="font-size:12px;text-transform:uppercase">
+            <th>
+                Date From
+            </th>
+            <th>Address</th>
+            <th>Date to</th>
+            <th>Position</th>
+            <th>Agency/Company</th>
+            <th>Monthly salary</th>
+            <th>Salary grade</th>
+            <th>Status of Appointment</th>
+            <th>Gov't Service</th>
+        </tr>
+
+        @foreach ($pdsworkxp as $workxp)
+            <tr>
+                <td>{{$workxp->date_from}}</td>
+                <td></td>
+                <td>{{$workxp->date_to}}</td>
+                <td>{{$workxp->position}}</td>
+                <td>{{$workxp->agency_company}}</td>
+                <td>{{$workxp->monthly_salary}}</td>
+                <td>{{$workxp->salary_grade}}</td>
+                <td>{{$workxp->status_appointment}}</td>
+                <td>
+                    @if($workxp->is_gov_service)
+                    <span class="badge bg-success">YES</span>
+                    @else 
+                    <span class="badge bg-warning">NO</span>
+                    @endif
+                </td>
+            </tr>
+        @endforeach
+    
+    </table>
+    {{-- 
+        pdsvolwork
+pdstrainings
+pdsreferences
+        --}}
+
+    <table class="table table-bordered table-striped text-center " >
+        <colgroup>
+            <col style="width: 20%;">
+            <col style="width: 20%;">
+            <col style="width: 20%;">
+            <col style="width: 20%;">
+            <col style="width: 20%;">
+        </colgroup>
+        <tr class="table-secondary">
+            <th colspan="5" style="text-align: center;font-size:13px;">
+              Voluntary Works
+            </th>
+        </tr>
+        <tr style="font-size:12px;text-transform:uppercase">
+            <th>
+               Name
+            </th>
+            <th>Date From</th>
+            <th>Date to</th>
+            <th>No of Hours</th>
+            <th>Designation</th>
+           
+        </tr>
+        @foreach ($pdsvolwork as $vol)
+        <tr>
+            <td>{{$vol->name}}</td>
+            <td>{{$vol->date_from}}</td>
+            <td>{{$vol->date_to}}</td>
+            <td>
+                {{$vol->no_of_hours}}
+            </td>
+            <td>{{$vol->position}}</td>
+        </tr>
+            
+        @endforeach
+
+      
+    
+    </table>
+
+    
+    <table class="table table-bordered table-striped text-center " >
+        <colgroup>
+            <col style="width: 20%;">
+            <col style="width: 20%;">
+            <col style="width: 20%;">
+            <col style="width: 20%;">
+            <col style="width: 20%;">
+        </colgroup>
+        <tr class="table-secondary">
+            <th colspan="5" style="text-align: center;font-size:13px;">
+             Trainings
+            </th>
+        </tr>
+        <tr style="font-size:12px;text-transform:uppercase">
+            <th>
+               Name
+            </th>
+            <th>Date From</th>
+            <th>Date to</th>
+            <th>No of Hours</th>
+            <th>Sponsor</th>
+           
+        </tr>
+
+        @foreach ($pdstrainings as $train)
+        <tr>
+            <td>{{$train->name}}</td>
+            <td>{{$train->date_from}}</td>
+            <td>{{$train->date_to}}</td>
+            <td>
+                {{$train->no_hours}}
+            </td>
+            <td>{{$train->sponsor}}</td>
+        </tr>
+        @endforeach
+      
+    
+    </table>
+
+    <table class="table table-bordered table-striped text-center " >
+        <tr class="table-secondary">
+            <th colspan="5" style="text-align: center;font-size:13px;">
+             References
+            </th>
+        </tr>
+        <tr style="font-size:12px;text-transform:uppercase">
+            <th>
+               Name
+            </th>
+            <th>Address</th>
+            <th>Tel No.</th>
+        </tr>
+        @foreach ($pdsreferences as $ref)
+            <tr>
+                <td>{{$ref->name}}</td>
+                <td>{{$ref->address}}</td>
+                <td>{{$ref->contact_no}}</td>
+            </tr>
+        @endforeach
+      
+    
+    </table>
+
+
+
    </div>
 
 </div>
