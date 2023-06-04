@@ -20,6 +20,7 @@ use App\Models\LeaveApplications;
 use App\Models\Compensatory_timeoff;
 use App\Models\DTR_corrections;
 use App\Models\Monetizations;
+use App\Models\OfficialBPass;
 use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller
@@ -113,8 +114,9 @@ class PageController extends Controller
         return view('employee.monetization',compact('data','leaveCredits'))->with('links', $data);
     }
     public function official_business_pass(Request $request)
-    {
-        return view('employee.official_business_pass');
+    {   
+        $data = OfficialBPass::where('emp_id',Auth::user()->emp_id)->paginate(10);
+        return view('employee.official_business_pass',compact('data'))->with('links', $data);
     }
     public function clearance(Request $request)
     {

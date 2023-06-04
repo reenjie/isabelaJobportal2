@@ -7,6 +7,7 @@ use App\Models\LeaveApplications;
 use App\Models\Compensatory_timeoff;
 use App\Models\DTR_corrections;
 use App\Models\Monetizations;
+use App\Models\OfficialBPass;
 use Illuminate\Support\Facades\Auth;
 
 class EmployeeController extends Controller
@@ -157,6 +158,18 @@ class EmployeeController extends Controller
         ->with('success', 'Request Cancelled Successfully!');
     }
 
+    public function cancelobpass(Request $request){
+        $ID = $request->ID;
+
+        OfficialBPass::find($ID)->update([
+           'status' => -1,
+           'meta' => 'Cancelled by requestor',
+        ]);
+        return redirect()
+        ->back()
+        ->with('success', 'Request Cancelled Successfully!');
+    }
+
     public function savedNewmonetization(Request $request){
         $noofdays = $request->noofdays;
         $addinfo = $request->addinfo;
@@ -170,6 +183,29 @@ class EmployeeController extends Controller
             'created_at'=>date('Y-m-d H:i:s'),
             'downloaded'=>0
         ]);
+        return redirect()
+        ->back()
+        ->with('success', 'Request Submitted Successfully!');
+    }
+
+    public function savenewobpass(Request $request){
+        $datebp = $request->datebp;
+        $timeofdeparture = $request->timeofdeparture;
+        $timeofreturn = $request->timeofreturn;
+        $purpose = $request->purpose;
+        $emp_id = Auth::user()->emp_id;
+
+        OfficialBPass::create([
+            'emp_id' =>$emp_id,
+            'status' =>1,
+            'date' =>$datebp,
+            'time_of_departure' =>$timeofdeparture,
+            'time_of_return' =>$timeofreturn,
+            'purpose' =>$purpose,
+            'meta' =>'',
+            'created_at'=>date('Y-m-d H:i:s')
+        ]);
+
         return redirect()
         ->back()
         ->with('success', 'Request Submitted Successfully!');

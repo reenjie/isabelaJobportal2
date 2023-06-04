@@ -113,13 +113,13 @@ Route::controller(App\Http\Controllers\EmployeeController::class)->group(
         Route::post('cancel_CT', 'cancelct')->name('cancel.Requestct');
         Route::post('cancelDtrc','cancelDTR')->name('cancel.Requestdtr');
         Route::post('cancelmone','cancelmone')->name('cancel.Requestmone');
-      
+        Route::post('cancelobpass','cancelobpass')->name('cancel.Requestob');
         Route::post('save','save_leave_app')->name('save.leaveapplication');
         Route::get('viewing/LeaveDates','viewLeavedates')->name('View.Dates');
         Route::post('save/compensatory','savenewcompensatorytimeoff')->name('save.newcompensatorytimeoff');
         Route::post('save/dtrCorrections','savedtrCorrections')->name('save.dtrCorrections');
         Route::post('save/monetization','savedNewmonetization')->name('save.newmonetization');
-      
+        Route::post('save/obpass','savenewobpass')->name('save.newobpass');
     }
 );
 

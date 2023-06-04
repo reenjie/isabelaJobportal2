@@ -131,8 +131,8 @@
                 </style>
                     <div style="padding:5px;height:70vh;overflow-y:scroll;" id="employeetabs">
                          <span style="font-size:10px;margin-left:10px;text-transform:uppercase" class="text-warning">REPORTS</span>
-                        <a href="{{ route('admin.announcements') }}"
-                    class="@if ($active == 'announcement') activesidebar @endif"><span>Dashboard</span></a> 
+                        <a href="{{ route('employee.dashboard') }}"
+                    class="@if ($active == 'dashboard') activesidebar @endif"><span>Dashboard</span></a> 
 
                          <span style="font-size:10px;margin-left:10px;text-transform:uppercase" class="text-warning">RECORDS</span>
                            <a href="{{ route('employee.personal_data') }}"

@@ -60,6 +60,10 @@
                         @case('newmonetization')
                         @include('employee.components.newmonetization')
                         @break;
+                        @case('newobpass')
+                        @include('employee.components.newobpass')
+                        
+                        @break;
                         @endswitch
                         
 
