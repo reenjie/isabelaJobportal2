@@ -18,6 +18,8 @@ use App\Models\Leave_Credit;
 use App\Models\GenPayroll;
 use App\Models\LeaveApplications;
 use App\Models\Compensatory_timeoff;
+use App\Models\DTR_corrections;
+use App\Models\Monetizations;
 use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller
@@ -101,11 +103,14 @@ class PageController extends Controller
     }
     public function dtr_correction(Request $request)
     {
-        return view('employee.dtr_correction');
+        $data = DTR_corrections::where('emp_id',Auth::user()->emp_id)->paginate(10);
+        return view('employee.dtr_correction',compact('data'))->with('links', $data);
     }
     public function monetization(Request $request)
     {
-        return view('employee.monetization');
+        $data = Monetizations::where('emp_id',Auth::user()->emp_id)->paginate(10);
+        $leaveCredits = Leave_Credit::where('empID',Auth::user()->emp_id)->get();
+        return view('employee.monetization',compact('data','leaveCredits'))->with('links', $data);
     }
     public function official_business_pass(Request $request)
     {

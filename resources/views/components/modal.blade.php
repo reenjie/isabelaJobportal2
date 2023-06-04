@@ -54,6 +54,12 @@
                         @case('addnewcomp')
                         @include('employee.components.newcompensatorytimeoff')
                         @break;
+                        @case('adddtrcorrection')
+                        @include('employee.components.adddtrcorrection')
+                        @break;
+                        @case('newmonetization')
+                        @include('employee.components.newmonetization')
+                        @break;
                         @endswitch
                         
 

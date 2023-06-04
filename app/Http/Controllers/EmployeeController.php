@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\LeaveApplications;
 use App\Models\Compensatory_timeoff;
+use App\Models\DTR_corrections;
+use App\Models\Monetizations;
 use Illuminate\Support\Facades\Auth;
 
 class EmployeeController extends Controller
@@ -88,6 +90,18 @@ class EmployeeController extends Controller
      ->with('success', 'Request Cancelled Successfully!');
     }
 
+    public function cancelDTR(Request $request){
+        $ID = $request->ID;
+
+        DTR_corrections::find($ID)->update([
+           'status' => -1,
+           'remark' => 'Cancelled by requestor',
+        ]);
+        return redirect()
+        ->back()
+        ->with('success', 'Request Cancelled Successfully!');
+    }
+
     public function savenewcompensatorytimeoff(Request $request){
        $date = $request->date;
        $timein = $request->timein;
@@ -109,5 +123,55 @@ class EmployeeController extends Controller
        ->back()
        ->with('success', 'Request Submitted Successfully!');
 
+    }
+
+    public function savedtrCorrections(Request $request){
+        $datedtr = $request->datedtr;
+        $note = $request->note;
+        $emp_id = Auth::user()->emp_id;
+        DTR_corrections::create([
+        'emp_id' =>$emp_id,
+        'date' => $datedtr,
+        'note' =>$note,
+        'status' => 1,
+        'remark' => '',
+        'meta' => null,
+        'created_at'=>date('Y-m-d H:i:s')
+        ]);
+
+        return redirect()
+        ->back()
+        ->with('success', 'Request Submitted Successfully!');
+ 
+    }
+
+    public function cancelmone(Request $request){
+        $ID = $request->ID;
+
+        Monetizations::find($ID)->update([
+           'status' => -1,
+           'remark' => 'Cancelled by requestor',
+        ]);
+        return redirect()
+        ->back()
+        ->with('success', 'Request Cancelled Successfully!');
+    }
+
+    public function savedNewmonetization(Request $request){
+        $noofdays = $request->noofdays;
+        $addinfo = $request->addinfo;
+        $emp_id = Auth::user()->emp_id;
+        Monetizations::create([
+            'emp_id' =>$emp_id,
+            'no_of_days' =>$noofdays,
+            'status'=>1,
+            'remark'=>'',
+            'meta'=>null,
+            'created_at'=>date('Y-m-d H:i:s'),
+            'downloaded'=>0
+        ]);
+        return redirect()
+        ->back()
+        ->with('success', 'Request Submitted Successfully!');
     }
 }
