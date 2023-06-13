@@ -84,6 +84,13 @@ class AuthController extends Controller
                     'If you experience two or more consecutive login failures, the system will prohibit you from logging in for your next attempts.',
             ]);
         } else {
+            
+           Activity_Log::SaveLogs([
+            'description'=>'Logged-in Attempt',
+            'subjecttype'=>null,
+            'subjectID' => null,
+            'causerID' =>'',
+        ]);
             return back()->withErrors([
                 'email' =>
                     'The Provided Credentials does not match our records',

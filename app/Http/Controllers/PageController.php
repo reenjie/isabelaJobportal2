@@ -72,7 +72,8 @@ class PageController extends Controller
     public function leave_credits(Request $request)
     {   
         $data = Leave_Credit::where('empID',Auth::user()->emp_id)->paginate(10);
-        return view('employee.leave_credits',compact('data'))->with('links', $data);
+        $salary = GenPayroll::where('emp_ID',Auth::user()->emp_id)->get()[0]->monthly_sal;
+        return view('employee.leave_credits',compact('data','salary'))->with('links', $data);
     }
     public function loan_transaction_records(Request $request)
     {

@@ -28,7 +28,7 @@
                     <td>{{$item->sick_lv}}</td>
                     <td>{{$item->vacay_lv}}</td>
                     <td>{{$totalleaves}}</td>
-                    <td></td>
+                    <td>{{round($salary * $totalleaves * 0.0481927 , 2)}}</td>
                 </tr>
                 @endforeach
             </tbody>

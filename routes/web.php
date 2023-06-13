@@ -82,7 +82,7 @@ Route::controller(App\Http\Controllers\JobApplicationController::class)->group(
 Route::controller(App\Http\Controllers\AnnouncementController::class)->group(
     function () {
         Route::get('Announcement', 'index')->name('admin.announcements');
-        Route::post('save','store')->name('save.announcement');
+        Route::post('save/announcement','store')->name('save.announcement');
     }
 );
 Route::controller(App\Http\Controllers\ReportsController::class)->group(
