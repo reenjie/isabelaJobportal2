@@ -88,6 +88,7 @@ Route::controller(App\Http\Controllers\AnnouncementController::class)->group(
 Route::controller(App\Http\Controllers\ReportsController::class)->group(
     function () {
         Route::get('Reports', 'index')->name('admin.reports');
+        Route::get('Generate','generate')->name('generate.page');
     }
 );
 Route::controller(App\Http\Controllers\UserController::class)->group(
