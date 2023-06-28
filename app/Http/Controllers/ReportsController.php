@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Applications;
+use App\Models\Jobpost;
 use Illuminate\Support\Facades\DB;
 class ReportsController extends Controller
 {
@@ -33,7 +34,7 @@ class ReportsController extends Controller
                     'TotalCounts of Pending'=>count($pendings)]
                 ];
              return view('admin.reports.Generatereports',compact('header','body','title'));
-            break;
+          
             case '2':
                 $allhired = $results = DB::table('applicants AS a')
                 ->select(DB::raw("CONCAT(a.first_name, ' ', a.middle_name, ' ', a.last_name) AS Name"))
@@ -56,13 +57,67 @@ class ReportsController extends Controller
                     ];
                 }
                 return view('admin.reports.Generatereports',compact('header','body','title'));
-               break;
+            
                case '3':
-                echo "filled";
-               break;
+               $allfilled = Jobpost::where('is_filled',1)->get();
+               $title = 'Filled Job Postings';
+               $header = [
+                'Plantilla_No',
+                'Title',
+                'Monthly_Salary',
+                'Date_posted'
+                 ];
+                 $body = [];
+                foreach($allfilled as $row){
+                    $body[] = [
+                        'Plantilla_No' =>$row->plantilla_no,
+                        'Title' => $row->title,
+                        'Monthly_Salary' =>$row->monthly_sal,
+                        'Date_posted' => $row->date_posted
+                    ];
+                }
+                return view('admin.reports.Generatereports',compact('header','body','title'));
+              
                case '4':
-                echo "for job interview";
-               break;
+                $forinterviews = DB::select('SELECT CONCAT(a.first_name, " ", a.middle_name, " ", a.last_name) AS applicant_Name,
+                a.sex,
+                a.email,
+                a.mobile_no,
+                j.title,
+                j.plantilla_no,
+                COALESCE(app.interview_date, "No Schedule Yet") AS InterviewDate,
+                "For Interview" AS status
+         FROM applicants a
+         JOIN applications app ON app.applicant_id = a.id AND app.status = 2
+         JOIN job_posts j on j.id = app.job_post_id
+         ORDER BY `applicant_Name` ASC');
+                       $title = 'For Interview Applicants';
+                $header = [
+                    'Plantilla_NO',
+                    'Position Applied',
+                    'Applicant_Name',
+                    'Gender',
+                    'Email',
+                    'Mobile_No',
+                    'Interview_Schedule',
+                    'Status'
+                     ];
+                     $body = [];
+                     foreach($forinterviews as $row){
+                         $body[] = [
+                            'Plantilla_NO' =>$row->plantilla_no,
+                            'Position Applied' =>$row->title,
+                            'Applicant_Name' => $row->applicant_Name,
+                            'Gender' =>$row->sex,
+                            'Email' =>$row->email,
+                            'Mobile_No' =>$row->mobile_no,
+                            'Interview_Schedule' =>date('h:ia F j,Y',strtotime($row->InterviewDate)),
+                            'Status' =>$row->status
+                         ];
+                     }
+
+                     return view('admin.reports.Generatereports',compact('header','body','title'));
+           
                case '5':
                 echo "publish jobpost";
                break;
