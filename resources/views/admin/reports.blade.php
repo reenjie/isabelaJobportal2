@@ -15,9 +15,8 @@
                         <option value="3">Filled Job Positions</option>
                         <option value="4">For Interview Applicants</option>
                         <option value="5">Publish Job Post</option>
-                        <option value="6">Filled Job Positions</option>
                         <option value="7">Today Logs</option>
-                        <option value="8">Select Logs Range</option>
+                      
                        
                     </select>
                  

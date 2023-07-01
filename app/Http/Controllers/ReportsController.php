@@ -119,14 +119,53 @@ class ReportsController extends Controller
                      return view('admin.reports.Generatereports',compact('header','body','title'));
            
                case '5':
-                echo "publish jobpost";
-               break;
-               case '6':
-                echo "filledjob positi";
-               break;
+                $publishedpost = DB::select('SELECT plantilla_no, title , date_posted FROM `job_posts` where status = 1');
+                $title = 'Published Job Postings';
+                $header = [
+                    'Plantilla_NO',
+                    'Title',
+                    'Date Posted',
+                     ];
+                     $body = [];
+                     foreach($publishedpost as $row){
+                         $body[] = [
+                            'Plantilla_NO' => $row->plantilla_no,
+                            'Title' =>$row->title,
+                            'Date Posted' => date('F j,Y ',strtotime($row->date_posted)),
+                         ];
+                     }
+
+                     return view('admin.reports.Generatereports',compact('header','body','title'));
+            
+            //    case '6':
+            //     echo "filledjob positi";
+            //    break;
                case '7':
-                echo "today logs";
-               break;
+             $datenow = date('Y-m-d');
+             $logstoday = DB::select('SELECT description , created_at ,CASE 
+             WHEN causer_id IS NOT NULL THEN 
+                 (SELECT CONCAT(firstname," ", lastname) FROM `_employee` WHERE ID IN (SELECT emp_id FROM users WHERE id = causer_id))
+             ELSE 
+                 "No User"
+         END AS  UserName FROM `activity_log` where date(created_at) = "'.$datenow.'" ');
+              
+              $title = 'Todays Logs';
+              $header = [
+                  'Description',
+                  'Created',
+                  'User',
+                   ];
+                   $body = [];
+                   foreach($logstoday as $row){
+                       $body[] = [
+                        'Description' => $row->description,
+                        'Created'       =>date('F j,Y',strtotime($row->created_at)),
+                        'User'          => $row->UserName,
+                       ];
+                   }
+
+                   return view('admin.reports.Generatereports',compact('header','body','title'));
+            
                case '8':
                 echo "select logs range";
                break;
