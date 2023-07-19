@@ -1,5 +1,5 @@
 {{-- data-bs-toggle="modal" data-bs-target="#add" --}}
-{{-- 
+{{--
     Usage : 
                                          @include('components.modal', [
                                                 'id'        =>"btnid",
@@ -19,55 +19,57 @@
                 </div>
                 <div class="modalbody">
                     @switch($type)
-                        @case('addNewJobPostings')
-                            @include('admin.components.jobpost_modal')
-                        @break
+                    @case('addNewJobPostings')
+                    @include('admin.components.jobpost_modal')
+                    @break
 
-                        @case('UpdateJobPostings')
-                            @include('admin.components.jobpost_modal', ['edit' => true, 'data' => $data])
-                        @break
+                    @case('UpdateJobPostings')
+                    @include('admin.components.jobpost_modal', ['edit' => true, 'data' => $data])
+                    @break
 
-                        @case('addNewUsers')
-                        @include('admin.components.users_modal')
-                        @break
+                    @case('addNewUsers')
+                    @include('admin.components.users_modal')
+                    @break
 
-                        @case('UpdateUsers')
-                        @include('admin.components.users_modal',['edit'=> true, 'data' => $data])
-                        @break;
+                    @case('UpdateUsers')
+                    @include('admin.components.users_modal',['edit'=> true, 'data' => $data])
+                    @break;
 
-                        @case('setinterview')
-                        @include('admin.components.setInterview_modal')
-                        @break;
+                    @case('setinterview')
+                    @include('admin.components.setInterview_modal')
+                    @break;
 
-                        @case('viewRequirements')
-                     @include('admin.components.requirements_modal')
-                        @break;
-                        @case('changepasswordverify')
-                        @include('admin.components.changepassword_modal')
-                        @break;
-                        @case('addNewleaveApp')
-                        @include('employee.components.leaveapp')
-                        @break;
-                        @case('viewingDates')
-                        @include('employee.components.viewDates')
-                        @break
-                        @case('addnewcomp')
-                        @include('employee.components.newcompensatorytimeoff')
-                        @break;
-                        @case('adddtrcorrection')
-                        @include('employee.components.adddtrcorrection')
-                        @break;
-                        @case('newmonetization')
-                        @include('employee.components.newmonetization')
-                        @break;
-                        @case('newobpass')
-                        @include('employee.components.newobpass')
-                        
-                        @break;
-                        @endswitch
-                        
+                    @case('viewRequirements')
+                    @include('admin.components.requirements_modal')
+                    @break;
+                    @case('changepasswordverify')
+                    @include('admin.components.changepassword_modal')
+                    @break;
+                    @case('addNewleaveApp')
+                    @include('employee.components.leaveapp')
+                    @break;
+                    @case('viewingDates')
+                    @include('employee.components.viewDates')
+                    @break
+                    @case('addnewcomp')
+                    @include('employee.components.newcompensatorytimeoff')
+                    @break;
+                    @case('adddtrcorrection')
+                    @include('employee.components.adddtrcorrection')
+                    @break;
+                    @case('newmonetization')
+                    @include('employee.components.newmonetization')
+                    @break;
+                    @case('newobpass')
+                    @include('employee.components.newobpass')
+                    @break;
+                    @case('newclearance')
+                    @include('employee.components.newclearance')
+                    @break;
+                    @endswitch
 
-                    
+
+
 
                 </div>
             </div>

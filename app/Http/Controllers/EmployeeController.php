@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Clearance;
 use Illuminate\Http\Request;
 use App\Models\LeaveApplications;
 use App\Models\Compensatory_timeoff;
@@ -79,116 +80,122 @@ class EmployeeController extends Controller
         abort(404);
     }
 
-    public function cancelct(Request $request){
-     $ID = $request->ID;
+    public function cancelct(Request $request)
+    {
+        $ID = $request->ID;
 
-     Compensatory_timeoff::find($ID)->update([
-        'status' => -1,
-        'remark' => 'Cancelled by requestor',
-     ]);
-     return redirect()
-     ->back()
-     ->with('success', 'Request Cancelled Successfully!');
+        Compensatory_timeoff::find($ID)->update([
+            'status' => -1,
+            'remark' => 'Cancelled by requestor',
+        ]);
+        return redirect()
+            ->back()
+            ->with('success', 'Request Cancelled Successfully!');
     }
 
-    public function cancelDTR(Request $request){
+    public function cancelDTR(Request $request)
+    {
         $ID = $request->ID;
 
         DTR_corrections::find($ID)->update([
-           'status' => -1,
-           'remark' => 'Cancelled by requestor',
+            'status' => -1,
+            'remark' => 'Cancelled by requestor',
         ]);
         return redirect()
-        ->back()
-        ->with('success', 'Request Cancelled Successfully!');
+            ->back()
+            ->with('success', 'Request Cancelled Successfully!');
     }
 
-    public function savenewcompensatorytimeoff(Request $request){
-       $date = $request->date;
-       $timein = $request->timein;
-       $timeout = $request->timeout;
-       $addinfo = $request->addinfo;
-       $emp_id = Auth::user()->emp_id;
-       Compensatory_timeoff::create([
-        'emp_id' => $emp_id,
-        'date'  =>$date,
-        'time_in' =>$timein,
-        'time_out' => $timeout,
-        'note'  =>$addinfo,
-        'status' =>1,
-        'remark' =>'',
-        'meta' =>null,
-        'created_at'=>date('Y-m-d H:i:s')
-       ]);
-       return redirect()
-       ->back()
-       ->with('success', 'Request Submitted Successfully!');
-
+    public function savenewcompensatorytimeoff(Request $request)
+    {
+        $date = $request->date;
+        $timein = $request->timein;
+        $timeout = $request->timeout;
+        $addinfo = $request->addinfo;
+        $emp_id = Auth::user()->emp_id;
+        Compensatory_timeoff::create([
+            'emp_id' => $emp_id,
+            'date'  => $date,
+            'time_in' => $timein,
+            'time_out' => $timeout,
+            'note'  => $addinfo,
+            'status' => 1,
+            'remark' => '',
+            'meta' => null,
+            'created_at' => date('Y-m-d H:i:s')
+        ]);
+        return redirect()
+            ->back()
+            ->with('success', 'Request Submitted Successfully!');
     }
 
-    public function savedtrCorrections(Request $request){
+    public function savedtrCorrections(Request $request)
+    {
         $datedtr = $request->datedtr;
         $note = $request->note;
         $emp_id = Auth::user()->emp_id;
         DTR_corrections::create([
-        'emp_id' =>$emp_id,
-        'date' => $datedtr,
-        'note' =>$note,
-        'status' => 1,
-        'remark' => '',
-        'meta' => null,
-        'created_at'=>date('Y-m-d H:i:s')
+            'emp_id' => $emp_id,
+            'date' => $datedtr,
+            'note' => $note,
+            'status' => 1,
+            'remark' => '',
+            'meta' => null,
+            'created_at' => date('Y-m-d H:i:s')
         ]);
 
         return redirect()
-        ->back()
-        ->with('success', 'Request Submitted Successfully!');
- 
+            ->back()
+            ->with('success', 'Request Submitted Successfully!');
     }
 
-    public function cancelmone(Request $request){
+    public function cancelmone(Request $request)
+    {
         $ID = $request->ID;
 
         Monetizations::find($ID)->update([
-           'status' => -1,
-           'remark' => 'Cancelled by requestor',
+            'status' => -1,
+            'remark' => 'Cancelled by requestor',
         ]);
         return redirect()
-        ->back()
-        ->with('success', 'Request Cancelled Successfully!');
+            ->back()
+            ->with('success', 'Request Cancelled Successfully!');
     }
 
-    public function cancelobpass(Request $request){
+    public function cancelobpass(Request $request)
+    {
         $ID = $request->ID;
 
         OfficialBPass::find($ID)->update([
-           'status' => -1,
-           'meta' => 'Cancelled by requestor',
+            'status' => -1,
+            'meta' => 'Cancelled by requestor',
         ]);
         return redirect()
-        ->back()
-        ->with('success', 'Request Cancelled Successfully!');
+            ->back()
+            ->with('success', 'Request Cancelled Successfully!');
     }
 
-    public function savedNewmonetization(Request $request){
+    public function savedNewmonetization(Request $request)
+    {
         $noofdays = $request->noofdays;
         $addinfo = $request->addinfo;
         $emp_id = Auth::user()->emp_id;
         Monetizations::create([
-            'emp_id' =>$emp_id,
-            'no_of_days' =>$noofdays,
-            'status'=>1,
-            'remark'=>'',
-            'meta'=>null,
-            'created_at'=>date('Y-m-d H:i:s'),
-            'downloaded'=>0
+            'emp_id' => $emp_id,
+            'no_of_days' => $noofdays,
+            'status' => 1,
+            'remark' => '',
+            'meta' => null,
+            'created_at' => date('Y-m-d H:i:s'),
+            'downloaded' => 0
         ]);
         return redirect()
-        ->back()
-        ->with('success', 'Request Submitted Successfully!');
+            ->back()
+            ->with('success', 'Request Submitted Successfully!');
     }
 
-    public function savenewobpass(Request $request){
+    public function savenewobpass(Request $request)
+    {
         $datebp = $request->datebp;
         $timeofdeparture = $request->timeofdeparture;
         $timeofreturn = $request->timeofreturn;
@@ -196,18 +203,47 @@ class EmployeeController extends Controller
         $emp_id = Auth::user()->emp_id;
 
         OfficialBPass::create([
-            'emp_id' =>$emp_id,
-            'status' =>1,
-            'date' =>$datebp,
-            'time_of_departure' =>$timeofdeparture,
-            'time_of_return' =>$timeofreturn,
-            'purpose' =>$purpose,
-            'meta' =>'',
-            'created_at'=>date('Y-m-d H:i:s')
+            'emp_id' => $emp_id,
+            'status' => 1,
+            'date' => $datebp,
+            'time_of_departure' => $timeofdeparture,
+            'time_of_return' => $timeofreturn,
+            'purpose' => $purpose,
+            'meta' => '',
+            'created_at' => date('Y-m-d H:i:s')
         ]);
 
         return redirect()
-        ->back()
-        ->with('success', 'Request Submitted Successfully!');
+            ->back()
+            ->with('success', 'Request Submitted Successfully!');
+    }
+
+    public function saveclearance(Request $request)
+    {
+        $effectiveDate = $request->effectiveDate;
+        $note = $request->note;
+
+        Clearance::create([
+            'emp_id' => Auth::user()->emp_id,
+            'date_effective' => $effectiveDate,
+            'note'  => $note,
+            'status' => 1
+        ]);
+
+        return redirect()
+            ->back()
+            ->with('success', 'Clearance Submitted Successfully!');
+    }
+    public function cancelClearance(Request $request)
+    {
+        $ID = $request->ID;
+
+        Clearance::find($ID)->update([
+            'status' => -1,
+
+        ]);
+        return redirect()
+            ->back()
+            ->with('success', 'Request Cancelled Successfully!');
     }
 }
