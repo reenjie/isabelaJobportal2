@@ -145,4 +145,15 @@ class PageController extends Controller
         $data = Clearance::where('emp_id', Auth::user()->emp_id)->paginate(10);
         return view('employee.clearance', compact('data'))->with('links', $data);
     }
+
+    public function leave_benefits(Request $request)
+    {
+        $data = Clearance::where('emp_id', Auth::user()->emp_id)->paginate(10);
+
+        $maxSalary = DB::select('SELECT MAX(monthly_sal) as MaxSalary FROM `_gen_payroll` where emp_ID =' . Auth::user()->emp_id);
+        $D = DB::select('SELECT vacay_lv,sick_lv , concat(vacay_lv + sick_lv) as D  FROM `_leave_credit` where empID =' . Auth::user()->emp_id);
+        $constantFactor = 0.0481927;
+        $terminalLeaveBenefits = $maxSalary[0]->MaxSalary * $D[0]->D * $constantFactor;
+        return view('employee.leave_benefits', compact('data', 'maxSalary', 'D', 'constantFactor', 'terminalLeaveBenefits'))->with('links', $data);
+    }
 }

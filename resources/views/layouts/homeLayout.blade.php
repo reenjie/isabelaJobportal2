@@ -47,7 +47,18 @@
 
 
                 <h6>{{ Auth::user()->name }}</h6>
+                @php
+                $photo = DB::select('SELECT * FROM `profilepicture` where emp_id ='.Auth::user()->emp_id);
+                @endphp
+
+                @if(count($photo))
+                <img src="{{  asset('uploads/'.$photo[0]->photo) }}" alt="">
+
+
+                @else
                 <img src="https://th.bing.com/th/id/OIP.Crq9sn3Qu3HyHwPJi2zW8QHaHa?pid=ImgDet&rs=1" alt="">
+                @endif
+
                 <input type="checkbox" id="nav" class="d-none">
 
 
@@ -115,6 +126,7 @@
                     <a href="{{ route('employee.service_records') }}" class="@if ($active == 'service_records') activesidebar @endif"><span>Service Records</span></a>
                     <a href="{{ route('employee.daily_time_records') }}" class="@if ($active == 'daily_time_records') activesidebar @endif"><span>Daily Time Records</span></a>
                     <a href="{{ route('employee.leave_credits') }}" class="@if ($active == 'leave_credits') activesidebar @endif"><span>Leave Credits</span></a>
+                    <a href="{{ route('employee.leave_benefits') }}" class="@if ($active == 'leave_benefits') activesidebar @endif"><span>Terminal Leave Benefits</span></a>
                     {{-- <a href="{{ route('employee.loan_transaction_records') }}"
                     class="@if ($active == 'loan_transaction_records') activesidebar @endif"><span>Loan Transaction Records</span></a> --}}
                     <a href="{{ route('employee.payslips') }}" class="@if ($active == 'payslips') activesidebar @endif"><span>Payslips</span></a>

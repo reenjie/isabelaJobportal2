@@ -9,7 +9,9 @@ use App\Models\Compensatory_timeoff;
 use App\Models\DTR_corrections;
 use App\Models\Monetizations;
 use App\Models\OfficialBPass;
+use App\Models\ProfilePic;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
@@ -245,5 +247,32 @@ class EmployeeController extends Controller
         return redirect()
             ->back()
             ->with('success', 'Request Cancelled Successfully!');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        if ($request->file('file')) {
+            if ($request->file('file')->move(public_path('uploads'),  $request->file('file')->getClientOriginalName())) {
+
+                $validate = ProfilePic::where('emp_id', Auth::user()->emp_id);
+                if (count($validate->get())) {
+
+                    if (unlink(public_path('uploads') . '/' . $validate->get()[0]->photo)) {
+                        $validate->update([
+                            'photo' => $request->file('file')->getClientOriginalName()
+                        ]);
+                    }
+                } else {
+                    ProfilePic::create([
+                        'emp_id' => Auth::user()->emp_id,
+                        'photo' => $request->file('file')->getClientOriginalName()
+                    ]);
+                }
+
+                return redirect()
+                    ->back()
+                    ->with('success', 'Profile Updated Successfully!');
+            }
+        }
     }
 }

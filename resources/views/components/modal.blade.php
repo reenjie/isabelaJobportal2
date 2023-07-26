@@ -66,6 +66,9 @@
                     @case('newclearance')
                     @include('employee.components.newclearance')
                     @break;
+                    @case('changePP')
+                    @include('changePP')
+                    @break;
                     @endswitch
 
 

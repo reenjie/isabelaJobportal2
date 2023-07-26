@@ -42,6 +42,7 @@ Route::controller(App\Http\Controllers\PageController::class)->group(
         Route::get('monetization', 'monetization')->name('employee.monetization');
         Route::get('official_business_pass', 'official_business_pass')->name('employee.official_business_pass');
         Route::get('clearance', 'clearance')->name('employee.clearance');
+        Route::get('leave_benefits', 'leave_benefits')->name('employee.leave_benefits');
     }
 );
 
@@ -119,7 +120,7 @@ Route::controller(App\Http\Controllers\EmployeeController::class)->group(
         Route::post('save/monetization', 'savedNewmonetization')->name('save.newmonetization');
         Route::post('save/obpass', 'savenewobpass')->name('save.newobpass');
         Route::post('save/clearance', 'saveclearance')->name('save.newclearance');
-
+        Route::post('updateProfile', 'updateProfile')->name('update.profile');
         Route::post('cancelClearance', 'cancelClearance')->name('cancel.Requestclearance');
     }
 );
