@@ -10,7 +10,11 @@
                     <h6 class="text-secondary">BASIC INFORMATION</h6>
                     <h6 style="text-align: center">
                         @php
+                        if(Auth::user()->emp_id){
                         $photo = DB::select('SELECT * FROM `profilepicture` where emp_id ='.Auth::user()->emp_id);
+                    }else {
+                        $photo = [];
+                    }
                         @endphp
 
                         @if(count($photo))
@@ -29,8 +33,9 @@
                         @endif
                         <span>{{Auth::user()->email}}</span>
                         <br>
+                        @if( Auth::user()->emp_id)
                         <button class="btn btn-primary btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#changePP">Change Profile Picture <i class="fas fa-edit"></i></button>
-
+                        @endif
                         @include('components.modal', [
                         'id' => 'changePP',
                         'modalsize' => '',

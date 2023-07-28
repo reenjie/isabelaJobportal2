@@ -47,8 +47,14 @@
 
 
                 <h6>{{ Auth::user()->name }}</h6>
-                @php
-                $photo = DB::select('SELECT * FROM `profilepicture` where emp_id ='.Auth::user()->emp_id);
+              
+              @php
+              if(Auth::user()->emp_id){
+                $photo = DB::select('select * from profilepicture where emp_id = '.Auth::user()->emp_id);
+              }else {
+                $photo = [];
+              }
+              
                 @endphp
 
                 @if(count($photo))
@@ -57,7 +63,7 @@
 
                 @else
                 <img src="https://th.bing.com/th/id/OIP.Crq9sn3Qu3HyHwPJi2zW8QHaHa?pid=ImgDet&rs=1" alt="">
-                @endif
+                @endif 
 
                 <input type="checkbox" id="nav" class="d-none">
 
