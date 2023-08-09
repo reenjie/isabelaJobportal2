@@ -41,7 +41,7 @@
                         <tbody>
                             <tr>
                                 <td scope="row">Highest Monthly Salary (S)</td>
-                                <td>&#8369; {{ number_format($maxSalary[0]->MaxSalary)}}</td>
+                                <td>&#8369; {{ number_format($maxSalary)}}</td>
 
                             </tr>
                             <tr>

@@ -138,7 +138,7 @@
                 @endforeach
                 @else 
                 <tr>
-                    <td style="text-align:center" colspan="6">
+                    <td style="text-align:center" colspan="7">
     
                         <lord-icon src="https://cdn.lordicon.com/zniqnylq.json" trigger="loop" delay="5000"
                             style="width:100px;height:100px;">

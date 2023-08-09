@@ -54,6 +54,8 @@ class PageController extends Controller
         $pdsvolwork = PDS_volwork::where('emp_id', Auth::user()->emp_id)->get();
         $pdstrainings = PDS_trainings::where('emp_id', Auth::user()->emp_id)->get();
         $pdsreferences = PDS_references::where('emp_id', Auth::user()->emp_id)->get();
+
+     
         return view('employee.personal_data', compact('pdsdata', 'pdsChild', 'pdseligibility', 'pdsworkxp', 'pdsvolwork', 'pdstrainings', 'pdsreferences'));
     }
     public function service_records(Request $request)
@@ -72,7 +74,10 @@ class PageController extends Controller
     public function leave_credits(Request $request)
     {
         $data = Leave_Credit::where('empID', Auth::user()->emp_id)->paginate(10);
-        $salary = GenPayroll::where('emp_ID', Auth::user()->emp_id)->get()[0]->monthly_sal;
+
+        $currentSalary =  DB::select('SELECT * FROM `_emp_payinfo` where employee_ID ='.Auth::user()->emp_id);
+        $salary = $currentSalary[0]->monthly_sal;
+      
         return view('employee.leave_credits', compact('data', 'salary'))->with('links', $data);
     }
     public function loan_transaction_records(Request $request)
@@ -148,12 +153,31 @@ class PageController extends Controller
 
     public function leave_benefits(Request $request)
     {
-        $data = Clearance::where('emp_id', Auth::user()->emp_id)->paginate(10);
+      // $data = Clearance::where('emp_id', Auth::user()->emp_id)->paginate(10);
+      $data =[];
+        $maxSalary ="";
+        $checkHighest_payroll = DB::select('SELECT MAX(monthly_sal) as MaxSalary FROM `_gen_payroll` where emp_ID =' . Auth::user()->emp_id);
+        
+        
+             if($checkHighest_payroll[0]->MaxSalary >=1){
+              
+           $maxSalary = $checkHighest_payroll[0]->MaxSalary;
+        }else {
+          
+           $currentSalary =  DB::select('SELECT * FROM `_emp_payinfo` where employee_ID ='.Auth::user()->emp_id);
+           $maxSalary = $currentSalary[0]->monthly_sal;
+          
+        }
+  
+        
+     
+     
 
-        $maxSalary = DB::select('SELECT MAX(monthly_sal) as MaxSalary FROM `_gen_payroll` where emp_ID =' . Auth::user()->emp_id);
         $D = DB::select('SELECT vacay_lv,sick_lv , concat(vacay_lv + sick_lv) as D  FROM `_leave_credit` where empID =' . Auth::user()->emp_id);
         $constantFactor = 0.0481927;
-        $terminalLeaveBenefits = $maxSalary[0]->MaxSalary * $D[0]->D * $constantFactor;
-        return view('employee.leave_benefits', compact('data', 'maxSalary', 'D', 'constantFactor', 'terminalLeaveBenefits'))->with('links', $data);
+        $terminalLeaveBenefits = $maxSalary * $D[0]->D * $constantFactor;
+
+     
+       return view('employee.leave_benefits', compact('data', 'maxSalary', 'D', 'constantFactor', 'terminalLeaveBenefits'))->with('links', $data);
     }
 }

@@ -42,23 +42,33 @@
                 <button id="hidesidebar"> <i class="fas fa-bars"></i></button>
                 <h5>PORTAL</h5>
             </div>
+                 
+            @php
+            if(Auth::user()->emp_id){
+              $photo = DB::select('select * from profilepicture where emp_id = '.Auth::user()->emp_id);
+            }else {
+              $photo = [];
+            }
 
+            $Empname = DB::select(' SELECT
+                        lastname,
+                        CASE
+                            WHEN sex = "MALE" THEN "Mr"
+                            ELSE "Ms/Mrs"
+                        END AS Caller
+                    FROM
+                        `_employee`
+                    WHERE
+                        ID = '.Auth::user()->emp_id);
+            
+            
+              @endphp
             <div class="userInfo" id="userclick">
 
 
-                <h6>{{ Auth::user()->name }}</h6>
-              
-              @php
-              if(Auth::user()->emp_id){
-                $photo = DB::select('select * from profilepicture where emp_id = '.Auth::user()->emp_id);
-              }else {
-                $photo = [];
-              }
-              
-                @endphp
-
+                <h6>{{ $Empname[0]->Caller.'. '.$Empname[0]->lastname }}</h6>
                 @if(count($photo))
-                <img src="{{  asset('uploads/'.$photo[0]->photo) }}" alt="">
+                <img src="{{  asset('public/uploads/'.$photo[0]->photo) }}" alt="">
 
 
                 @else

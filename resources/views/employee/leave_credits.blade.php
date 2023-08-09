@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container-fluid">
+    @if(count($data)>=1)
     <style>
         table thead tr th {
             font-size:13px;
@@ -35,6 +36,15 @@
           </table>
     
     </div>
+
+    @else 
+    <div style="text-align: center;pointer-events:none;user-select:none" class="mt-5">
+        <img src="https://th.bing.com/th/id/OIP.mexosehXrciNRvS4NohrwAAAAA?pid=ImgDet&rs=1" alt="" style="margin-top:50px">
+        <br> <br>
+
+      <h5 style="color:gray">  No Payslips Found..</h5>
+    </div>
+    @endif
  
     @isset($links)
     @if (count($links) >= 1)

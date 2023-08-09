@@ -18,7 +18,7 @@
                         @endphp
 
                         @if(count($photo))
-                        <img src="{{  asset('uploads/'.$photo[0]->photo) }}" width="200" class="rounded mb-3" alt="">
+                        <img src="{{  asset('uploads/'.$photo[0]->photo) }}" width="200" class="rounded mb-3" style="height:350px" alt="">
                         @else
                         <img src="https://th.bing.com/th/id/R.ab01b0e99e6089d02c0957dafe4decba?rik=wKS4tLyfLP65SQ&riu=http%3a%2f%2fwww.newdesignfile.com%2fpostpic%2f2010%2f04%2femployee-icon_150781.jpg&ehk=sEVxAvyCDU7q5Sku99HeyE6JioZb1Dvl%2fMFft1DEGNM%3d&risl=&pid=ImgRaw&r=0" width="200" class="rounded mb-3" alt="">
                         @endif

@@ -8,13 +8,22 @@
         }
     </style>
     @php
+    $pds=[];
+    $resadd=[];
+    $peradd=[];
+    $spouse=[];
+    $parents=[];
+    if(count($pdsdata)>=1){
     $pds = $pdsdata[0];
     $resadd = json_decode($pds->res_addcress_json);
     $peradd = json_decode($pds->perm_address_json);
     $spouse = json_decode($pds->spouse_json);
     $parents = json_decode($pds->parents_json);
+    }
+   
     @endphp
 
+    @if(count($pdsdata)>=1)
 
     <div class="p-4 table-responsive ">
 
@@ -24,7 +33,7 @@
 
         <div class="text-center mb-3">
             @if(count($photo))
-            <img src="{{  asset('uploads/'.$photo[0]->photo) }}" width="200" class="rounded" alt="">
+            <img src="{{  asset('public/uploads/'.$photo[0]->photo) }}" width="200" class="rounded" alt="">
             @else
             <img src="https://th.bing.com/th/id/R.ab01b0e99e6089d02c0957dafe4decba?rik=wKS4tLyfLP65SQ&riu=http%3a%2f%2fwww.newdesignfile.com%2fpostpic%2f2010%2f04%2femployee-icon_150781.jpg&ehk=sEVxAvyCDU7q5Sku99HeyE6JioZb1Dvl%2fMFft1DEGNM%3d&risl=&pid=ImgRaw&r=0" width="200" class="rounded" alt="">
             @endif
@@ -483,6 +492,16 @@ pdsreferences
 
 
     </div>
+    @else 
+    
+    <div style="text-align: center;pointer-events:none;user-select:none" class="mt-5">
+        <img src="https://th.bing.com/th/id/OIP.mexosehXrciNRvS4NohrwAAAAA?pid=ImgDet&rs=1" alt="" style="margin-top:50px">
+        <br> <br>
+
+      <h5 style="color:gray">  No Personal Data Found..</h5>
+    </div>
+
+    @endif
 
 </div>
 @endsection

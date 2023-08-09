@@ -24,6 +24,7 @@
             </tr>
         </thead>
         <tbody>
+            @if(count($data)>=1)
             @foreach ($data as $item)
                 <tr>
                     <td>{{$item->leave_type}}</td>
@@ -134,6 +135,18 @@
                 </tr>
             
             @endforeach
+            @else 
+            <tr>
+                <td style="text-align:center" colspan="7">
+
+                    <lord-icon src="https://cdn.lordicon.com/zniqnylq.json" trigger="loop" delay="5000"
+                        style="width:100px;height:100px;">
+
+                    </lord-icon>
+                    <h6 style="font-weight: bold"> No Data Found</h6>
+                </td>
+            </tr>
+            @endif
         </tbody>
     </table>
 </div>
