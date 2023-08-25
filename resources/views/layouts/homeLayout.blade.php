@@ -49,8 +49,10 @@
             }else {
               $photo = [];
             }
-
-            $Empname = DB::select(' SELECT
+	$name = '';
+	if(Auth::user()->emp_id){
+ $Empname = DB::select('SELECT
+			firstname,
                         lastname,
                         CASE
                             WHEN sex = "MALE" THEN "Mr"
@@ -60,13 +62,21 @@
                         `_employee`
                     WHERE
                         ID = '.Auth::user()->emp_id);
-            
-            
+	}else {
+	$Empname =[];
+}
+           
+            if(count($Empname)>=1){
+	$name = $Empname[0]->Caller.'. '.$Empname[0]->lastname;
+		}else{
+	$name = Auth::user()->name;
+	}
+            	
               @endphp
             <div class="userInfo" id="userclick">
 
 
-                <h6>{{ $Empname[0]->Caller.'. '.$Empname[0]->lastname }}</h6>
+                <h6>{{ $name  }}</h6>
                 @if(count($photo))
                 <img src="{{  asset('public/uploads/'.$photo[0]->photo) }}" alt="">
 
