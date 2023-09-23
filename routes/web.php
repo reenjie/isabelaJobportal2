@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return redirect()->route('landingPage');
 });
 
 Route::get('MyProfile', [
@@ -27,6 +27,8 @@ Route::controller(App\Http\Controllers\PageController::class)->group(
         Route::post('Job/Post/Viewing', 'ViewJob')->name('viewItem');
         Route::get('register', 'registerpage')->name('register');
 
+        Route::get('/home/HRIS','homepage')->name('landingPage');
+        Route::get('/home/HRIS/ar','test')->name('test');
 
         Route::get('personal_data', 'personal_data')->name('employee.personal_data');
         Route::get('service_records', 'service_records')->name('employee.service_records');
@@ -52,6 +54,8 @@ Route::controller(App\Http\Controllers\AuthController::class)->group(
         Route::post('login', 'signin')->name('signin');
         Route::post('logout', 'logout')->name('logout');
         Route::post('register', 'register')->name('register');
+        Route::post('validateOTP','validateOTP');
+
     }
 );
 Route::controller(App\Http\Controllers\DashboardController::class)->group(
@@ -145,6 +149,7 @@ Route::controller(App\Http\Controllers\MailController::class)->group(
         Route::get('remind', 'Resend_Interviewnotice')->name('mail.sendInterview');
         Route::post('resend/invitation', 'Resend_Interviewnotice');
         Route::post('resend/acknowledgement', 'Resend_Acknowledgement');
+        Route::get('/sendOTP','sendOTP')->name('mail.sendOTP');
     }
 );
 

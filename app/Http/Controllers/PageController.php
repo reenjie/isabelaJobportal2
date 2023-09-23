@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Jobpost;
 use App\Models\JobPostings;
 use App\Models\Employee;
 use App\Models\PDS;
@@ -30,9 +30,57 @@ class PageController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')
+        ->except(
+            ['homepage',
+            'ViewJob',
+            'registerpage'
+            ]);
     }
 
+    public function homepage(Request $request){
+       
+        $jobpost = DB::select('SELECT id,
+         plantilla_no, 
+         title AS position,
+          description, 
+          eligibility, 
+          competencies, 
+          educational_background,
+           trainings, salary, 
+           date_posted,
+           (CASE WHEN office_id IS NOT NULL AND office_id <> 0 THEN 
+           (SELECT Office FROM _office_tbl WHERE ID = office_id) ELSE "No Office" END) AS office 
+           FROM job_posts WHERE is_filled = 0');
+
+    
+       return view('welcome',compact('jobpost'));
+    }
+
+    public function registerpage(Request $request){
+        return view('auth.register');
+    }
+
+    public function ViewJob(Request $request){
+        $jobid = $request->jobid;
+        $search = DB::select('SELECT id,
+        plantilla_no, 
+        title AS position,
+         description, 
+         eligibility, 
+         competencies, 
+         educational_background as education_background,
+          trainings, salary , monthly_sal,
+          date_posted,
+          (CASE WHEN office_id IS NOT NULL AND office_id <> 0 THEN 
+          (SELECT Office FROM _office_tbl WHERE ID = office_id) ELSE "No Office" END) AS office 
+          FROM job_posts WHERE is_filled = 0 and id ='.$jobid);
+
+        //return $search;
+       return view('apply' , compact('search'));
+    }
+
+  
     public function MyProfile(Request $request)
     {
         if (Auth::user()->emp_id) {

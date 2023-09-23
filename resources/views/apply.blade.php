@@ -1,29 +1,33 @@
 @extends('layouts.homepage',["register"=> true , "activePage"=>'opportunities'])
 @section('content')
     <style>
-        body {
-            overflow-y: hidden;
-        }
+     
     </style>
 
     <main>
-        <div class="row" id="JobDetails">
+        <div class="row">
             <div class="col-md-12">
                 <button onclick="window.location.href='/' " class="btn btn-light text-primary mb-2"
                     style="font-size:14px"><i class="fas fa-arrow-left"></i> Back Home</button>
 
-                <h6 style="float:right">Date Published : {{ date('F j, Y',strtotime($search->date_posted)) }}
+                <h6 style="float:right">Date Published : {{ date('F j, Y',strtotime($search[0]->date_posted)) }}
 
 
                 </h6>
                 <br>
-                <div style="">
+                <div class="mb-2">
                   
                    <div>
-                    <h2 style="font-weight:bold">{{ $search->position }}
+                    <h2 style="font-weight:bold;color:#2E4374">
+
+                        <div class="row">
+                            <div class="col-md-10">
+                                {{ $search[0]->position }}
+                            </div>
+                        </div>
                         <button style="float:right" class="customaddBtn px-5 py-2">Apply <i class="fas fa-arrow-circle-right"></i></button>
                     </h2>
-                    <h6 style="font-weight:normal">{{ $search->office }}
+                    <h6 style="font-weight:normal">{{ $search[0]->office }}
                    </div>
     
                 </div>
@@ -31,53 +35,127 @@
             
               
                 </h6>
+                <br>
 
                 <hr>
-                <div class="details">
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+                <div class="table-responsive">
+                    <table class="table table-bordered" style="text-align: center;font-family: 'Montserrat', sans-serif;">
+                        <thead>
+                          <tr class="table-primary">
+                            <th scope="col" colspan="2" style="font-size:13px;font-weight:normal;text-align:center">JOB INFORMATION</th>
+                           
+                          </tr>
+                        </thead>
+                        <tbody>
+                         <tr>
+                            <td style="width:300px">
+                             <h6 style="text-transform:uppercase;font-size:13px" >   Plantilla No </h6>
+                            </td>
+                            <td>
+                                {{ $search[0]->plantilla_no }}
+                            </td>
+                         </tr>
+                         <tr>
+                            <td style="width:300px">
+                             <h6 style="text-transform:uppercase;font-size:13px" >   Description </h6>
+                            </td>
+                            <td>
+                              
+                                {{ $search[0]->description }}
+                            </td>
+                         </tr>
+                         <tr>
+                            <td style="width:300px">
+                             <h6 style="text-transform:uppercase;font-size:13px" >    Monthly Salary </h6>
+                            </td>
+                            <td>
+                                <p style=""><span class="badge badge-primary bg-secondary">{{ $search[0]->salary }}</span>  &#8369;{{ number_format($search[0]->monthly_sal) }} </p>
+                            </td>
+                         </tr>
+                       
+                         <tr>
+                            <td style="width:300px">
+                             <h6 style="text-transform:uppercase;font-size:13px" >     Educational Background : </h6>
+                            </td>
+                            <td>
+                                <p >{{ $search[0]->education_background }}</p>
+                            </td>
+                         </tr>
+                         <tr>
+                            <td style="width:300px">
+                             <h6 style="text-transform:uppercase;font-size:13px" >      Competencies  </h6>
+                            </td>
+                            <td>
+                               <p>{{ $search[0]->competencies }}</p>
+                            </td>
+                         </tr>
+                         <tr>
+                            <td style="width:300px">
+                             <h6 style="text-transform:uppercase;font-size:13px" >    Trainings </h6>
+                            </td>
+                            <td>
+                                {{ $search[0]->trainings }}
+                            </td>
+                         </tr>
+                         <tr>
+                            <td style="width:300px">
+                             <h6 style="text-transform:uppercase;font-size:13px" >    Eligibility </h6>
+                            </td>
+                            <td>
+                                {{ $search[0]->eligibility }}
+                            </td>
+                         </tr>
+                        </tbody>
+                      </table>
+                </div>
+                {{-- <div class="details">
                     <h6 style="font-size:12px;font-weight:bold;color:gray">JOB INFORMATION</h6>
 
                     <h6>
                         Plantilla No :
                     </h6>
 
-                    <p style="font-weight:bold">{{ $search->plantilla_no }}</p>
+                    <p style="font-weight:bold">{{ $search[0]->plantilla_no }}</p>
                 
                     <h6>
                         Description :
                     </h6>
 
                     <h6>
-                        Monthly Salary :
+                      
                     </h6>
+                  
+                 
 
-                    <p style="font-weight:bold">1/1 ( &#8369;{{ number_format($search->monthly_sal) }} )</p>
-
-                    <p style="font-weight:bold">{{ $search->description }}</p>
+                    <p style="font-weight:bold">{{ $search[0]->description }}</p>
                     <h6>
-                        Educational Background :
+                       
                     </h6>
 
-                    <p style="font-weight:bold">{{ $search->education_background }}</p>
+                
                     <h6>
-                        Competencies :
+                     
                     </h6>
 
-                    <p style="font-weight:bold">{{ $search->competencies }}</p>
-
-                    <h6>
-                        Trainings :
-                    </h6>
-
-                    <p style="font-weight:bold">{{ $search->trainings }}</p>
+                    <p style="font-weight:bold"></p>
 
                     <h6>
-                        Eligibility :
+                        :
                     </h6>
 
-                    <p style="font-weight:bold">{{ $search->eligibility }}</p>
+                    <p style="font-weight:bold"></p>
 
-                </div>
-                <hr>
+                    <h6>
+                         :
+                    </h6>
+
+                    <p style="font-weight:bold"></p>
+
+                </div> --}}
+               
 
 
             </div>

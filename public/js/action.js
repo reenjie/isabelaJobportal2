@@ -94,4 +94,18 @@ class Action {
             error: function (jqXHR, textStatus, errorThrown) {},
         });
     }
+
+    static ValidateOTP(data,callback){
+        $.ajax({
+            url: "validateOTP",
+            type: "POST",
+            data: { data:data,_token: Action.csrfToken },
+            success: function (response) {
+                if (typeof callback === "function") {
+                    callback(response);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {},
+        });
+    }
 }

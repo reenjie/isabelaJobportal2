@@ -6,6 +6,7 @@
 
         <title>Isabela LGU - HRMS</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('logo/loginlogo.png') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
@@ -43,7 +44,7 @@
                     <a href="#" id="logout" class="@if($activePage == "opportunities") login @endif" >Logout <i class="fas fa-right-from-bracket text-danger"></i></a>
                     @else 
                     <a href="{{route('register')}}" class="@if($activePage == "register") active @endif" >Register</a>
-                    <a href="#" class="@if($activePage == "login") active @endif" >Login</a>
+                    <a href="{{route('login')}}" class="@if($activePage == "login") active @endif" >Login</a>
                     @endif
                    
                 </div>
@@ -58,8 +59,20 @@
             @endif
           </header>
         @yield('content')
-    </body>
 
+        
+        <h6 style="
+        position: fixed;
+        bottom:0px;
+        right:10px;
+        font-size:10px;
+        text-transform:uppercase;
+        color:#7C81AD
+        ">
+            All Rights Reserved &middot; 2023
+        </h6>
+    </body>
+    <script src="{{asset('js/action.js')}}"></script>
     <script>
         $('#logout').click(function(){
             $('#btnlogout').click();  

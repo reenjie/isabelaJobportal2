@@ -10,6 +10,7 @@ class Applicants extends Model
     use HasFactory;
 
     protected $table = 'applicants';
+    public $timestamps = false; 
     protected $fillable = [
         'uid',
         'first_name',
@@ -23,6 +24,7 @@ class Applicants extends Model
         'email_verified',
         'password',
         'last_login',
+        'OTPcode',
         'is_lock',
         'date_created',
         'date_updated'

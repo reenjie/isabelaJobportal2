@@ -13,10 +13,10 @@
                 <a href="?page=InterviewSchedule" class="nav-link @if (request('page') == 'InterviewSchedule') active @endif">Interview
                     Schedules <i class="fas fa-calendar"></i></a>
             </li>
-            <li class="nav-item" role="presentation">
+            {{-- <li class="nav-item" role="presentation">
                 <a href="?page=Pre-Employees" class="nav-link  @if (request('page') == 'Pre-Employees') active @endif">Pre -
                     Employees <i class="fas fa-user-tie"></i></a>
-            </li>
+            </li> --}}
 
         </ul>
       

@@ -11,14 +11,17 @@
       
        <div class="d-flex">
      
-        <input type="text" required name="search" id="searchkey" class="form-control form-control-sm mb-2">
+        <input type="text" required name="search" id="searchkey" class="form-control form-control-md mb-2" placeholder="start typing here..">
         <button type="submit" class="customaddBtn " id="btnsearch"><i class="fas fa-search"></i></button>
  
        </div>
   
     </div>
    </div>
-    <h4 >All Open Positions</h4>
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,500&display=swap" rel="stylesheet">
+    <h1 style="font-family: 'Roboto Serif', serif;color:#2E4374" >All Open Positions</h1>
    
     <div class="d-none" id="pos" style="text-align:center">
     <lord-icon
@@ -31,7 +34,7 @@
         <span style="font-weight:normal" class="text-danger" id="nosearchkey"></span>
     </h5>
     </div>
-    @foreach ($jobpost as $item)
+  @foreach ($jobpost as $item)
     <div class="jobcard shadow mb-1  " style="z-index:-1">
         <div class="card-body">
             <form action="{{route('viewItem')}}" method="post">
@@ -53,7 +56,7 @@
           
         </div>
     </div> 
-    @endforeach
+    @endforeach 
     
   </main>
 

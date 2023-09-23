@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\Activity_Log;
+use App\Models\Applicants;
 
 class AuthController extends Controller
 {
@@ -110,45 +111,89 @@ class AuthController extends Controller
             $email = $request->email;
             $password = $request->password;
 
-            $usersaved = User::create([
-                'name' => $fname . ' ' . $lname,
-                'email' => $email,
-                'role' => 2, // Save as employee
-                'password' => Hash::make($password),
-            ]);
 
-            $profilesaved = Profile::create([
-                'firstname' => $fname,
-                'middlename' => $mname,
-                'lastname' => $lname,
-                'birthdate' => $bdate,
-                'sex' => $gender,
-                'mobile' => $mobile,
-                'fk_userid' => $usersaved->id,
-            ]);
-
-            if ($profilesaved) {
-                $credentials = [
-                    'email' => $email,
-                    'password' => $password,
-                ];
-                if (Auth::attempt($credentials)) {
-
-                    Activity_Log::SaveLogs([
-                        'description'=>'First time Logged-in',
-                        'subjecttype'=>null,
-                        'subjectID' => null,
-                        'causerID' =>Auth::user()->id,
-                    ]);
-                    return redirect()->route('home');
+            function generatedOTP() {
+                $otpLength = 6;
+                $digits = '0123456789';
+                $otp = '';
+            
+                for ($i = 0; $i < $otpLength; $i++) {
+                    $otp .= $digits[rand(0, 9)];
                 }
+                return $otp;
             }
+
+            $otpcode = generatedOTP();
+
+            $validate = Applicants::where('email',$email)->get();
+
+            if(count($validate)>=1){
+                return back()->withErrors([
+                    'email' =>
+                        'Registration Failed. Email already exist in our database.',
+                ]);
+            }
+         
+         $uniqueID = md5(rand(100, 500) . date('Y-m-d H:i:s') . 'users');
+           $saved =  Applicants::create([
+                'uid'           =>$uniqueID,
+                'first_name'    =>$fname,
+                'last_name'     =>$lname,
+                'middle_name'   =>$mname,
+                'dob'           =>$bdate,
+                'sex'           =>$gender,
+                'civil_status'  => '',
+                'email'         =>$email,
+                'mobile_no'     =>$mobile,
+                'email_verified'=>null,
+                'password'      =>Hash::make($password),
+                'OTPcode'       =>$otpcode,
+                'is_lock'       =>0,
+                'date_created'  =>now(),
+                'date_updated' =>now()
+            ]);
+
+            session(['otp'=>[
+                    'email'=>$email,
+                    'otpCode'=>$otpcode,
+                    'Username'=> $fname.' '.$lname
+            ]]);
+            
+           if($saved){
+
+            return redirect()->route('mail.sendOTP');
+
+           }
+
+                
+            
         } catch (\Throwable $th) {
+        
             return back()->withErrors([
                 'email' =>
                     'Registration Failed. Email already exist in our database.',
             ]);
         }
+    }
+
+    public function validateOTP(Request $request){
+        $entered  = $request->data;
+
+        $sess = session()->get('otp');
+        $email = $sess['email'];
+        $Username = $sess['Username'];
+        $otpcode = $sess['otpCode'];
+           
+        if($entered === $otpcode){
+            session()->forget('otpSend');
+            session()->forget('otp');
+            session(['redirecttoLogin'=>true]);
+
+
+            return response()->json(['message'=>'success']);
+        }
+
+        return response()->json(['message'=>'failed']);
     }
 
     public function logout()

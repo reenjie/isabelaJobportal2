@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
+<a href="/" class="btn btn-light btn-sm" style="font-size:13px;color:#2E4374"><< Home</a>
     <div class="loginCard">
+      
         @if (session()->has('countingError'))
             @php
                 $ml = session()->get('countingError');
@@ -32,7 +34,8 @@
             });
                 </script>
         @endif
-        <div class="loginTitle">
+    
+        <div class="loginTitle" style="user-select: none">
             <img src="{{ asset('logo/loginlogo.png') }}" alt="">
             <h5>Sign in </h5>
         </div>
@@ -43,7 +46,7 @@
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user icons"></i></span>
                             <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" autofocus placeholder="Username/Email Address" aria-label="Username"
-                                aria-describedby="addon-wrapping">                
+                                aria-describedby="addon-wrapping" required>                
                           </div>
                           @error('email')
                           <span class="feedback" role="alert">
@@ -54,7 +57,7 @@
                         <div class="input-group flex-nowrap mt-3">
                             <span class="input-group-text" id="addon-wrapping"><i class="fas fa-lock icons"></i></span>
                             <input type="password" class="form-control  @error('password') is-invalid @enderror" name="password"  placeholder="Password" aria-label="Username"
-                                aria-describedby="addon-wrapping">
+                                aria-describedby="addon-wrapping" required>
                         </div>
             
                        <div class="remember">
