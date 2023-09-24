@@ -1,7 +1,25 @@
 @extends('layouts.homepage',["register"=> false , "activePage"=>'opportunities'])
 
 @section('content')
+    
+  @if(session()->has('success'))
+ <script>
+     swal({
+                        title: "Submitted!",
+                        text: "Position Applied was submitted successfully!",
+                        icon: "success",
+                    });
+ </script>
+ @elseif(session()->has('exist'))
+ <script>
+    swal({
+                       title: "Already exist",
+                       text: "You have already submitted an application for this position",
+                       icon: "info",
+                   });
+</script>
 
+  @endif
   <main>
    <div class="row">
     <div class="col-md-6"></div>
@@ -59,6 +77,7 @@
     @endforeach 
     
   </main>
+
 
 <script>
     $('.selectpos').click(function(){

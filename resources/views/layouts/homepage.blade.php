@@ -9,6 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -38,8 +39,8 @@
                     <a href="/" class="@if($activePage == "opportunities") active @endif" >Opportunities</a>
                     <a href="#" class="@if($activePage == "newhires") active @endif" >New Hires</a>
                   
-                    @if(Auth::check())
-                    <a href="{{route('register')}}" class="@if($activePage == "register") active @endif" >MyAccount </a>
+                    @if(Auth::guard('applicants')->check())
+                    <a href="{{route('myaccountpage')}}" class="@if($activePage == "myaccountpage") active @endif" >MyAccount </a>
                    
                     <a href="#" id="logout" class="@if($activePage == "opportunities") login @endif" >Logout <i class="fas fa-right-from-bracket text-danger"></i></a>
                     @else 
@@ -72,7 +73,7 @@
             All Rights Reserved &middot; 2023
         </h6>
     </body>
-    <script src="{{asset('js/action.js')}}"></script>
+ 
     <script>
         $('#logout').click(function(){
             $('#btnlogout').click();  
@@ -122,4 +123,11 @@
         }
         });
     </script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous">
+    </script>
+
 </html>

@@ -3,7 +3,7 @@
     <style>
      
     </style>
-
+ 
     <main>
         <div class="row">
             <div class="col-md-12">
@@ -25,7 +25,23 @@
                                 {{ $search[0]->position }}
                             </div>
                         </div>
-                        <button style="float:right" class="customaddBtn px-5 py-2">Apply <i class="fas fa-arrow-circle-right"></i></button>
+                     
+                        @php
+                        $checkifApplied = [];
+                            if(Auth::guard('applicants')->check()){
+                                $route = route('save.jobapplication',['apply'=>$search[0]->id]);
+                                $checkifApplied =  DB::select('SELECT * FROM `applications` where applicant_id = '.Auth::guard('applicants')->user()->id.' and job_post_id ='.$search[0]->id.' ');
+                            }else {
+                                $route = route('login',['apply'=>$search[0]->id]);
+                            }
+                          
+                          
+                        @endphp
+                        @if(count($checkifApplied)>=1)
+                        <span class="badge bg-primary" style="float: right;font-size:14px">APPLIED <i class="fas fa-check-circle"></i></span>
+                        @else
+                        <button style="float:right" onclick="window.location.href='{{$route}}' " class="customaddBtn px-5 py-2">Apply<i class="fas fa-arrow-circle-right"></i></button>
+                        @endif
                     </h2>
                     <h6 style="font-weight:normal">{{ $search[0]->office }}
                    </div>

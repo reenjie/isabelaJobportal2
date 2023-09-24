@@ -9,6 +9,10 @@ use App\Models\Profile;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\Activity_Log;
 use App\Models\Applicants;
+use App\Models\Applications;
+
+
+
 
 class AuthController extends Controller
 {
@@ -16,16 +20,19 @@ class AuthController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-    public function index()
+    public function index(Request $request)
     {
+        session(['apply'=>$request->apply]);
         session()->forget('userRole');
         $json = file_get_contents(resource_path('json/logerrortimer.json'));
         $data = json_decode($json, true);
+      
         return view('auth.login', compact('data'));
     }
 
     public function signin(Request $request)
-    {
+    { 
+       
         $email = $request->email;
         $password = $request->password;
         $json = file_get_contents(resource_path('json/logerrortimer.json'));
@@ -36,6 +43,61 @@ class AuthController extends Controller
             'email' => $email,
             'password' => $password,
         ];
+
+     
+        $verified = Applicants::where('email', $email)->first();
+        
+        if ($verified && Hash::check($password, $verified->password)) {
+          
+            if (Auth::guard('applicants')->attempt(['email' => $email, 'password' => $password])) {  
+
+               
+                if(session()->has('apply')){
+                    $jobid = session()->get('apply');
+                    $validate = Applications::where('applicant_id',Auth::guard('applicants')->user()->id)
+                    ->where('job_post_id',$jobid)->get();
+
+                    if(count($validate)>=1){
+                        return redirect()->route('landingPage')->with('exist','applied already');
+                    }
+                    Applications::create([
+                        'applicant_id' => Auth::guard('applicants')->user()->id,
+                        'job_post_id'  => $jobid,
+                        'status'       => 1,
+                        'interview_date'    => null,
+                        'venue'         => '',
+                        'hmpsb_ids'     =>'',
+                        'date_created' =>now(),
+                        'date_updated'=>now()
+                    ]);
+                    return redirect()->route('landingPage')->with('success','Applied Successfully!');
+                }
+
+                
+              
+               return redirect()->route('landingPage');
+            }
+        }
+
+     
+
+        // if(session()->has('apply')){
+        //     $verifiedUser = Applicants::where('email', $email)->first();
+
+        //     if ($verifiedUser && Hash::check($password, $verifiedUser->password)) {
+               
+        //         if (Auth::attempt(['email' => $email, 'password' => $password])) {
+                  
+                  
+        //            session()->forget('apply');
+        //            return Auth::user();
+
+        //         }
+        //     }
+
+        // }
+
+       
         if (Auth::attempt($credentials)) {
             session()->forget('countingError');
             session()->forget('timer');
@@ -58,9 +120,13 @@ class AuthController extends Controller
                 'subjectID' => null,
                 'causerID' =>Auth::user()->id,
             ]);
+
+
+         
            return redirect()->route('home');
         }
-
+        
+     
         //Handle Error | Multiple Login Failure
         if (session()->has('countingError')) {
             $count = session()->increment('countingError', $incrementBy = 1);
@@ -90,13 +156,14 @@ class AuthController extends Controller
             'description'=>'Logged-in Attempt',
             'subjecttype'=>null,
             'subjectID' => null,
-            'causerID' =>'',
+            'causerID' =>0,
         ]);
             return back()->withErrors([
                 'email' =>
                     'The Provided Credentials does not match our records',
             ]);
         }
+
     }
 
     public function register(Request $request)
@@ -198,14 +265,26 @@ class AuthController extends Controller
 
     public function logout()
     {   
+        if(Auth::guard('applicants')->check()){
+         $userid = Auth::guard('applicants')->user()->id;
+        }else {
+            $userid=Auth::user()->id;
+        }
+
         Activity_Log::SaveLogs([
             'description'=>'Logged-Out',
             'subjecttype'=>null,
             'subjectID' => null,
-            'causerID' =>Auth::user()->id,
+            'causerID' =>$userid,
         ]);
+        
+        if(Auth::guard('applicants')->check()){
+            Auth::guard('applicants')->logout();
+        }else {
+            Auth::logout();
+        }
+
      
-        Auth::logout();
         return redirect()->route('home');
     }
 }

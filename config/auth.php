@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'applicants' => [ // Add a custom guard for 'applicants' table
+            'driver' => 'session',
+            'provider' => 'applicants',
+        ],
     ],
 
     /*
@@ -65,10 +69,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'applicants' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Applicants::class, // Use the 'applicants' model
+        ],
     ],
 
     /*
@@ -92,6 +96,11 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
+        ],
+        'applicants' => [ // Add a custom password reset configuration for 'applicants'
+            'provider' => 'applicants',
+            'table' => 'password_resets_applicants',
+            'expire' => 60,
         ],
     ],
 

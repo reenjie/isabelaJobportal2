@@ -34,7 +34,8 @@ class PageController extends Controller
         ->except(
             ['homepage',
             'ViewJob',
-            'registerpage'
+            'registerpage',
+            'myaccountpage'
             ]);
     }
 
@@ -55,6 +56,12 @@ class PageController extends Controller
 
     
        return view('welcome',compact('jobpost'));
+    }
+
+    public function myaccountpage(Request $request){
+        
+
+        return view('myaccountpage');
     }
 
     public function registerpage(Request $request){

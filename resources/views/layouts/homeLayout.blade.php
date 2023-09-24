@@ -122,7 +122,7 @@
                         @endphp
                         @if ($active != 'jobapplication')
                         @if(count($countofPendingApplications)>=1)
-                        <span class="badge bg-danger">@if(count($countofPendingApplications)> 100) 99+ @else count($countofPendingApplications) @endif</span></span></a>
+                        <span class="badge bg-danger">@if(count($countofPendingApplications)> 100) 99+ @else {{count($countofPendingApplications)}} @endif</span></span></a>
                 @endif
                 @endif
                 <a href="{{ route('admin.announcements') }}" class="@if ($active == 'announcement') activesidebar @endif"><i class="fas fa-bell"></i><span>Announcements</span></a>

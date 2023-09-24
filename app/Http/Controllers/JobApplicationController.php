@@ -19,7 +19,22 @@ class JobApplicationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['appliedJob']);
+    }
+
+    public function appliedJob(Request $request){
+        $jobid = $request->apply;
+        Applications::create([
+            'applicant_id' => Auth::guard('applicants')->user()->id,
+            'job_post_id'  => $jobid,
+            'status'       => 1,
+            'interview_date'    => null,
+            'venue'         => '',
+            'hmpsb_ids'     =>'',
+            'date_created' =>now(),
+            'date_updated'=>now()
+        ]);
+        return redirect()->route('landingPage')->with('success','Applied Successfully!');
     }
 
     public function index(Request $request)
@@ -133,7 +148,7 @@ class JobApplicationController extends Controller
                     '>=',
                     DB::raw('CURDATE() - INTERVAL 31 DAY')
                 )
-                ->where('date_created', '<=', DB::raw('CURDATE()'))
+                ->orWhere('date_created', '<=', DB::raw('CURDATE()'))
                 ->orderBy('date_created', 'desc');
 
             $applications = $query->paginate(10);

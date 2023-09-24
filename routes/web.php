@@ -30,6 +30,8 @@ Route::controller(App\Http\Controllers\PageController::class)->group(
         Route::get('/home/HRIS','homepage')->name('landingPage');
         Route::get('/home/HRIS/ar','test')->name('test');
 
+        Route::get('MyAccount','myaccountpage')->name('myaccountpage');
+
         Route::get('personal_data', 'personal_data')->name('employee.personal_data');
         Route::get('service_records', 'service_records')->name('employee.service_records');
         Route::get('daily_time_records', 'daily_time_records')->name('employee.daily_time_records');
@@ -80,6 +82,11 @@ Route::controller(App\Http\Controllers\JobApplicationController::class)->group(
         Route::post('update/applicantStatus', 'MarkApplicants');
         Route::post('application/setInterview', 'setInterview')->name('admin.setInterview');
         Route::post('set/Hired', 'SetasHired');
+
+        Route::get('/saveappliedJob','appliedJob')->name('save.jobapplication');
+
+
+
     }
 );
 Route::controller(App\Http\Controllers\AnnouncementController::class)->group(
