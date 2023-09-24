@@ -40,14 +40,32 @@
                         @if(count($checkifApplied)>=1)
                         <span class="badge bg-primary" style="float: right;font-size:14px">APPLIED <i class="fas fa-check-circle"></i></span>
                         @else
-                        <button style="float:right" onclick="window.location.href='{{$route}}' " class="customaddBtn px-5 py-2">Apply<i class="fas fa-arrow-circle-right"></i></button>
+                        <button style="float:right" id="apply" class="customaddBtn px-5 py-2">Apply <i class="fas fa-arrow-circle-right"></i></button>
                         @endif
                     </h2>
                     <h6 style="font-weight:normal">{{ $search[0]->office }}
                    </div>
     
                 </div>
-              
+                
+                <script>
+                    $('#apply').click(function(){            
+               swal({
+                title: "CONFIRMATION",
+                text: "Please ensure that all the required items and their respective attachments are included",
+                icon: "warning",
+                buttons: true,
+                dangerMode: false,
+                })
+                .then((confirm) => {
+                if (confirm) {
+                    window.location.href='{{$route}}';
+                } 
+                });
+                    
+                        // onclick=" " 
+                    })
+                </script>
             
               
                 </h6>

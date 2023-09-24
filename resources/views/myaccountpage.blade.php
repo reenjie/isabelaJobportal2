@@ -106,11 +106,33 @@
                 <div class="card-body">
                     <h5 style="color:#2E4374;text-transform:uppercase;font-size:14px;font-weight:bold">My Applications</h5>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">An item</li>
-                        <li class="list-group-item">A second item</li>
-                        <li class="list-group-item">A third item</li>
-                        <li class="list-group-item">A fourth item</li>
-                        <li class="list-group-item">And a fifth one</li>
+                        @if(count($applications)>=1)
+                        @foreach ($applications as $item)
+                   <li class="list-group-item">
+                    <h6 style="font-weight: bold">
+                        {{$item->title}}
+                    </h6>
+                    <span style="font-size:12px">Date applied : {{date('F j,Y',strtotime($item->date_created))}}</span>
+                    <br>
+                    <button class="btn btn-light text-danger btn-sm px-3 border-danger" style="font-size: 12px">Remove Application <i class="fas fa-cancel"></i></button>
+                    <div style="float: right">
+                        <span class="badge bg-warning" style="text-transform: uppercase;font-weight:normal">Pending</span>
+                    </div>
+                </li>
+                        @endforeach
+                        @else 
+                        <div style="text-align: center;margin-top:100px;margin-bottom:190px">
+                            
+                    <lord-icon src="https://cdn.lordicon.com/zniqnylq.json" trigger="loop" delay="5000"
+                    style="width:100px;height:100px;">
+
+
+                </lord-icon>
+                <h6 style="font-weight: bold"> No Application Yet..</h6>
+                        </div>
+
+                        @endif
+        
                       </ul>
                 </div>
             </div>

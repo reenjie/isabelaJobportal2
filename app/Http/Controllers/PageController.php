@@ -24,6 +24,7 @@ use App\Models\Monetizations;
 use App\Models\OfficialBPass;
 use App\Models\Clearance;
 use Illuminate\Support\Facades\DB;
+use App\Models\Applications;
 
 class PageController extends Controller
 {
@@ -59,9 +60,8 @@ class PageController extends Controller
     }
 
     public function myaccountpage(Request $request){
-        
-
-        return view('myaccountpage');
+        $applications = DB::select('SELECT *, (CASE WHEN job_post_id IS NOT NULL THEN (SELECT title FROM job_posts WHERE id = job_post_id) ELSE "" END) as title FROM applications WHERE applicant_id = '.Auth::guard('applicants')->user()->id);
+        return view('myaccountpage',compact('applications'));
     }
 
     public function registerpage(Request $request){
